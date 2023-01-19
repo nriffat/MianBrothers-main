@@ -1,0 +1,197 @@
+<div class="container-fluid">
+  <div class="row  mt-5">
+    <h1 class="align-items-center ml-3 headingMain">Add Cash Petty Receipt</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/sales">Sales</mat-chip> /
+        <mat-chip style="background-color: teal;color:white" routerLink="/employee-home/cash-receipt-petty-customer">Cash Receipt</mat-chip> / <mat-chip selected>Add Cash Petty Receipt</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="this.addCashCustomerReceiptPettyForm">
+      <div class="row  mt-5">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial Number</mat-label>
+            <input matInput  formControlName="serialNumber" required/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashCustomerReceiptPettyForm.controls['serialNumber'].invalid &&
+              (addCashCustomerReceiptPettyForm.controls['serialNumber'].dirty ||
+                addCashCustomerReceiptPettyForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashCustomerReceiptPettyForm.controls['serialNumber']?.errors?.required
+              "
+              >Serial Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashCustomerReceiptPettyForm.controls['serialNumber']?.errors?.minlength ||
+                addCashCustomerReceiptPettyForm.controls['serialNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker1" #date required formControlName="invoiceDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cash Account</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.allAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadAccount(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Payment Type</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.accountInfo
+                  : ''
+              "
+
+            />
+
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row ">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Code</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.accountOfOtherType; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadPaidTo(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Name</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isPaidToLoaded ? this.accountOfOtherType[paidTo_index]?.accountInfo : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Total Amount</mat-label>
+            <input matInput #amount formControlName="totalCredited" required type="number"/>
+            <mat-error
+              *ngIf="
+                addCashCustomerReceiptPettyForm.controls['totalCredited']?.errors?.minLength ||
+                addCashCustomerReceiptPettyForm.controls['totalCredited']?.errors?.maxLength
+              "
+              >Must be between 1 - 1000000 Characters</mat-error
+            >
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashCustomerReceiptPettyForm.controls['totalCredited'].invalid &&
+              (addCashCustomerReceiptPettyForm.controls['totalCredited'].dirty ||
+                addCashCustomerReceiptPettyForm.controls['totalCredited'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashCustomerReceiptPettyForm.controls['totalCredited']?.errors?.required
+              "
+              >Total Credited is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashCustomerReceiptPettyForm.controls['totalCredited']?.errors?.min ||
+                addCashCustomerReceiptPettyForm.controls['totalCredited']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            rows="8"
+            formControlName="description"
+            required
+          ></textarea>
+        </mat-form-field>
+        <div
+          *ngIf="
+            addCashCustomerReceiptPettyForm.controls['description'].invalid &&
+            (addCashCustomerReceiptPettyForm.controls['description'].dirty ||
+              addCashCustomerReceiptPettyForm.controls['description'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="addCashCustomerReceiptPettyForm.controls['description']?.errors?.required"
+            >Description is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addCashCustomerReceiptPettyForm.controls['description']?.errors?.minlength ||
+              addCashCustomerReceiptPettyForm.controls['description']?.errors?.maxlength
+            "
+            >Must be between 2 - 50 Characters</mat-error
+          >
+        </div>
+      </div>
+    </form>
+    <div class="row mr-1" style="float:right">
+
+        <button mat-button routerLink="/employee-home/cash-receipt-petty-customer">Back</button>
+        <button mat-button class="blueButton ml-2" [disabled]="addCashCustomerReceiptPettyForm.invalid || !isPaidToLoaded || !isAccountCodeLoaded" (click)="addCashPetty(date.value)">Add</button>
+      </div>
+  </div>
+
+</div>

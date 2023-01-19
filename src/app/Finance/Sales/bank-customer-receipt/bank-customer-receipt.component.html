@@ -1,0 +1,412 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+  <h1 class="align-items-center ml-3 headingMain">Bank Receipt</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-9">
+    <mat-chip-list>
+      <mat-chip color="basic" routerLink="/employee-home/sales">Sales</mat-chip> /
+      <mat-chip color="warn" selected>Bank Receipt</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="col-md-3">
+    <button mat-raised-button class="basic" routerLink="/employee-home/add-bank-customer-receipt">Add Bank Receipt</button>
+  </div>
+
+  <div class="container-fluid p-3 mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <div class="row mt-5">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Serial Number</mat-label>
+                <mat-select disableRipple>
+                  <mat-option *ngFor="let accountData of this.bankPaymentTable; let i = index" [value]="accountData.serialNumber" (click)="loadBankReceipt(i)">{{accountData.serialNumber}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="example-form-field w-100">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="datepicker1" [value]="
+                isAccountCodeLoaded
+                  ? this.bankPaymentTable[account_index]
+                      ?.paymentDate
+                  : ''
+              ">
+                <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker1>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Invoice No</mat-label>
+                <input matInput [value]="
+                isAccountCodeLoaded
+                  ? this.bankPaymentTable[account_index]
+                      ?.invoice
+                  : ''
+              ">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="example-form-field w-100">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="datepicker2" [value]="
+                isAccountCodeLoaded
+                  ? this.bankPaymentTable[account_index]
+                      ?.invoiceDate
+                  : ''
+              ">
+                <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker2>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </mat-card>
+
+      </div>
+      <div class="col-md-6 mt-5">
+        <mat-card>
+          <div class="row p-3">
+            <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Bank Account</mat-label>
+              <input matInput [value]="
+                isAccountCodeLoaded
+                  ? this.bankPaymentTable[account_index]
+                      ?.accountCode
+                  : ''
+              ">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Account No</mat-label>
+                <input matInput [value]="
+                isAccountCodeLoaded
+                  ? this.bankPaymentTable[account_index]
+                      ?.accountInfo
+                  : ''
+              ">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row p-3">
+            <div class="col-md-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Cheque No</mat-label>
+              <input matInput [value]="
+                isAccountCodeLoaded
+                  ? this.bankPaymentTable[account_index]
+                      ?.chequeNumber
+                  : ''
+              ">
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field appearance="outline" class="example-form-field w-100">
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="datepicker3" [value]="
+              isAccountCodeLoaded
+                ? this.bankPaymentTable[account_index]
+                    ?.chequeDate
+                : ''
+            ">
+              <mat-datepicker-toggle matSuffix [for]="datepicker3"></mat-datepicker-toggle>
+              <mat-datepicker #datepicker3>
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+          </div>
+          <div class="row p-3">
+            <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Balance</mat-label>
+              <input matInput [value]="
+              isAccountCodeLoaded
+                ? this.bankPaymentTable[account_index]
+                    ?.accountBalance
+                : ''
+            ">
+            </mat-form-field>
+          </div>
+          </div>
+
+        </mat-card>
+      </div>
+      <div class="col-md-6 mt-5">
+          <mat-card>
+          <div class="row p-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Received From</mat-label>
+              <input matInput [value]="
+              isAccountCodeLoaded
+                ? this.bankPaymentTable[account_index]
+                    ?.paidToCode
+                : ''
+            ">
+            </mat-form-field>
+          </div>
+          <div class="row p-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Account Number</mat-label>
+              <input matInput [value]="
+              isAccountCodeLoaded
+                ? this.bankPaymentTable[account_index]
+                    ?.paidToInfo
+                : ''
+            ">
+            </mat-form-field>
+          </div>
+          <div class="row p-3">
+            <mat-form-field appearance="outline" class="ml-2" class="w-100">
+              <mat-label>Balance</mat-label>
+              <input matInput [value]="
+              isAccountCodeLoaded
+                ? this.bankPaymentTable[account_index]
+                    ?.pendingBalance
+                : ''
+            ">
+            </mat-form-field>
+          </div>
+        </mat-card>
+        </div>
+    </div>
+    <div class="row mt-5" style="justify-content: center;">
+    <button mat-raised-button routerLink="/employee-home/bank-receipt-petty" class="ml-2 basic">Petty Receipt</button>
+    </div>
+
+    <div class="mat-elevation-z8 container-fluid p-2 mt-5">
+      <button
+        [disabled]="!this.disablePrint"
+        mat-stroked-button
+        class="mb-2"
+        style="float: right"
+        (click)="printReceipt('MyDIv')"
+      >
+        Print
+      </button>
+      <mat-form-field appearance="standard" class="w-100">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+      </mat-form-field>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- fullName Column -->
+        <ng-container matColumnDef="invoice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Invoice No. </th>
+          <td mat-cell *matCellDef="let row"> {{row.invoice}} </td>
+        </ng-container>
+
+        <!-- position Column -->
+        <ng-container matColumnDef="amountPaid">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Amount Paid </th>
+          <td mat-cell *matCellDef="let row"> {{row.amountPaid}} </td>
+        </ng-container>
+
+        <!-- department Column -->
+        <ng-container matColumnDef="GSTAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> GST Amount </th>
+          <td mat-cell *matCellDef="let row"> {{row.GSTAmount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="GSTRate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> GST Rate </th>
+          <td mat-cell *matCellDef="let row"> {{row.GSTRate}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="WHTAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> WHT Amount </th>
+          <td mat-cell *matCellDef="let row"> {{row.WHTAmount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="WHTRate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> WHT Rate </th>
+          <td mat-cell *matCellDef="let row"> {{row.WHTRate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="advancedAdjustment">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Advance Adjustment </th>
+          <td mat-cell *matCellDef="let row"> {{row.advancedAdjustment}} </td>
+        </ng-container>
+        <ng-container matColumnDef="discountReceived">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Discount Received </th>
+          <td mat-cell *matCellDef="let row"> {{row.discountReceived}} </td>
+        </ng-container>
+        <ng-container matColumnDef="totalAmountDebited">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Total Amount Credited </th>
+          <td mat-cell *matCellDef="let row"> {{row.totalAmountDebited}} </td>
+        </ng-container>
+
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Delete</th>
+          <td mat-cell *matCellDef="let row; let i = index">
+            <mat-icon class="material-symbols-outlined">
+              delete
+            </mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Edit</th>
+          <td mat-cell *matCellDef="let row; let i = index">
+            <mat-icon class="material-symbols-outlined" (click)="onEdit(i)">
+              edit
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <!-- <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr> -->
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- class="positioned"  -->
+<div id="MyDIv"  class="positioned">
+  <div class="container">
+    <div class="row" style="background-color: rgb(50, 120, 226)">
+      <div class="col-md-6">
+        <h1 class="mt-5" style="font-size: 30px;color:#ffff" >RECEIPT NOTE</h1>
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <ul class="colorWhite">
+          +92-3334556767
+        </ul>
+        <ul class="colorWhite">
+          mianb@gmail.com
+        </ul>
+        <ul class="colorWhite">
+          G.S.T Regn. No: 1234-5678
+        </ul>
+      </div>
+      <div class="col-md-3 mt-2">
+        <ul class="colorWhite">
+          Mian Brothers Company (Pvt) Ltd
+        </ul>
+        <ul class="colorWhite">
+          Suit no. 10 Tower Heights
+        </ul>
+        <ul class="colorWhite">
+          Lahore,Pakistan
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4"><div class="p-2">
+        <div class="row">
+          <h3>Serial</h3>
+          &nbsp;&nbsp;&nbsp;
+          <h3>{{ isAccountCodeLoaded
+            ? (this.bankPaymentTable[account_index]?.serialNumber)
+            : ''}}</h3>
+        </div>
+        <div class="row">
+          <h3>Date</h3>
+          &nbsp;&nbsp;&nbsp;
+          <h3>{{isAccountCodeLoaded
+            ? (this.bankPaymentTable[account_index]?.paymentDate  | date:"medium")
+            : ''}}</h3>
+        </div>
+          <div class="row">
+            <h4>Received From:</h4>
+          &nbsp;&nbsp;&nbsp;
+          <h4>{{isAccountCodeLoaded ? this.bankPaymentTable[account_index].paidToId : ''}}</h4>
+          </div>
+          <div class="row">
+            <h4>Receipt Type:</h4>
+          &nbsp;&nbsp;&nbsp;
+            <h5>{{isAccountCodeLoaded ? (this.bankPaymentTable[account_index].paymentType) : ''}}</h5>
+          </div>
+          <div class="row">
+            <h4>Cheque No:</h4>
+          &nbsp;&nbsp;&nbsp;
+            <h5>{{isAccountCodeLoaded ? this.bankPaymentTable[account_index].chequeNumber : ''}}</h5>
+          </div>
+          <div class="row">
+            <h4>Dated:</h4>
+          &nbsp;&nbsp;&nbsp;
+            <h5>{{isAccountCodeLoaded ? (this.bankPaymentTable[account_index].createdDate | date:'medium') : ''}}</h5>
+          </div>
+        </div></div>
+      <div class="col-md-4 offset-md-4 mt-3">
+        <div class="row">
+          <h4>Drawn On:</h4>&nbsp;&nbsp;<h4>{{isAccountCodeLoaded
+            ? (this.bankPaymentTable[account_index]?.accountInfo  )
+            : ''}}</h4>
+        </div>
+        <div class="row">
+          <h4>Against Invoices:</h4>&nbsp;&nbsp;<h4>{{isAccountCodeLoaded
+            ? (this.bankPaymentTable[account_index]?.invoice  )
+            : ''}}</h4>
+        </div>
+        <div class="row">
+          <h4>Remarks:</h4>&nbsp;&nbsp;<h4>{{isAccountCodeLoaded
+            ? (this.bankPaymentTable[account_index]?.paymentDescription  )
+            : ''}}</h4>
+        </div>
+      </div>
+    </div>
+    <mat-divider [inset]="true"></mat-divider>
+    <div class="row mt-5">
+      <div class="col-md-12" id="htmlData">
+
+      </div>
+    </div>
+    <div class="row mt-2 ml-1">
+      <h3 class="colorBlue">Amount Paid Rs:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isAccountCodeLoaded
+        ? (this.bankPaymentTable[account_index]?.amountPaid)
+        : ''}}</h3>
+    </div>
+    <div class="row mt-2"  >
+      <h3 class="colorBlue">With-Holding Tax Deducted Rs:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isAccountCodeLoaded
+        ? (this.bankPaymentTable[account_index]?.WHTAmount)
+        : ''}}</h3>
+    </div>
+    <div class="row mt-2" >
+      <h3 class="colorBlue">Discount Rs:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isAccountCodeLoaded
+        ? (this.bankPaymentTable[account_index]?.discountReceived)
+        : ''}}</h3>
+    </div>
+    <div class="row mt-2" >
+      <h3 class="colorBlue">Total Rs:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isAccountCodeLoaded
+        ? (this.bankPaymentTable[account_index]?.totalAmountDebited)
+        : ''}}</h3>
+    </div>
+    <div class="row mt-3">
+      <h5 style="color:rgb(10, 116, 238)">Authorized Signature</h5>
+      _______________
+      <br>
+    </div>
+  </div>
+</div>
+
+</div>

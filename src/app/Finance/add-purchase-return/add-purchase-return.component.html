@@ -1,0 +1,318 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">
+      Add Purchase Return
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" selected routerLink="/employee-home/purchases"
+          >Purchase</mat-chip
+        >
+        /
+        <mat-chip
+          style="background-color: green; color: white"
+          selected
+          routerLink="/employee-home/purchase-return"
+          >Purchase Return</mat-chip
+        >
+        / <mat-chip color="primary" selected>Add Purchase Return</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="addPurchaseReturnsForm">
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial Number</mat-label>
+            <input
+              matInput
+              #serialNumber
+              required
+              formControlName="serialNumber"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addPurchaseReturnsForm.controls['serialNumber'].invalid &&
+              (addPurchaseReturnsForm.controls['serialNumber'].dirty ||
+                addPurchaseReturnsForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.serialNumber.errors?.['required']
+        "
+              >Serial Number is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.serialNumber.errors?.['minlength']
+        "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.serialNumber.errors?.['maxlength']
+        "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker1"
+              #date
+              required
+              formControlName="orderDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Terms Of Payment</mat-label>
+            <input matInput formControlName="termsOfPayment" required />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addPurchaseReturnsForm.controls['termsOfPayment'].invalid &&
+              (addPurchaseReturnsForm.controls['termsOfPayment'].dirty ||
+                addPurchaseReturnsForm.controls['termsOfPayment'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.termsOfPayment.errors?.['required']
+        "
+              >Terms Of Payment is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.termsOfPayment.errors?.['minlength']
+        "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.termsOfPayment.errors?.['maxlength']
+        "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor Invoice Number</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="
+                  let purchaseSalesData of this.allPurchaseSalesData;
+                  let i = index
+                "
+                [value]="purchaseSalesData.serialNumber"
+                (click)="loadPurchaseSales(i)"
+                >{{ purchaseSalesData.serialNumber }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Dated</mat-label>
+            <input
+              matInput
+              readonly
+              [matDatepicker]="datepicker3"
+              [value]="
+                isPurchaseSalesLoaded
+                  ? this.allPurchaseSalesData[purchaseSales_index]?.saleDate
+                  : ''
+              "
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker3>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nature of debit note</mat-label>
+            <input matInput required formControlName="debitNotes" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addPurchaseReturnsForm.controls['debitNotes'].invalid &&
+              (addPurchaseReturnsForm.controls['debitNotes'].dirty ||
+                addPurchaseReturnsForm.controls['debitNotes'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.debitNotes.errors?.['required']
+        "
+              >Debit Notes is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.debitNotes.errors?.['minlength']
+        "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.addPurchaseReturnsForm.controls.debitNotes.errors?.['maxlength']
+        "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.allAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadAccount(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Type</mat-label>
+            <input
+              readonly
+              matInput
+              [value]="
+                isAccountLoaded
+                  ? this.allAccounts[account_index]?.accountType
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div class="form-group" *ngIf="forms != null">
+      <div *ngFor="let f of forms; let ind = index">
+        <form
+          novalidate
+          #itemCodeForm="ngForm"
+          (ngSubmit)="onSubmit(f)"
+          [formGroup]="f.formGroup"
+        >
+          <div>
+            <ng-container>
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>{{ f.metaData[0].label }}</mat-label>
+                    <mat-select disableRipple>
+                      <mat-option
+                        *ngFor="let iCode of this.itemCodesById; let i = index"
+                        [value]="iCode.productItemCode"
+                        (click)="loadItem(ind, iCode.productItemCode)"
+                        >{{ iCode.productItemCode }}</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>{{ f.metaData[1].label }}</mat-label>
+                    <input
+                      matInput
+                      type="number"
+                      [formControlName]="f.metaData[1].key"
+                      [id]="f.metaData[1].key"
+                    />
+                  </mat-form-field>
+                  <mat-error
+                    *ngIf="
+                    f.metaData[1].Validation.required"
+                    >Quantity is required</mat-error
+                  >
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>{{ f.metaData[2].label }}</mat-label>
+                    <input
+                      matInput
+                      [formControlName]="f.metaData[2].key"
+                      [id]="f.metaData[2].key"
+                    />
+
+                  </mat-form-field>
+                  <mat-error
+                    *ngIf="
+                    f.metaData[2].Validation.required"
+                    >Unit is required</mat-error
+                  >
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div (click)="createForm()" class="col-md-2">
+      <a mat-button color="primary"
+        ><mat-icon
+          ><span class="material-symbols-outlined"> add </span></mat-icon
+        >
+        Add More Items</a
+      >
+    </div>
+    <div class="row">
+      <div class="col-md-10"></div>
+      <div class="col-md-2">
+        <button mat-button routerLink="/employee-home/purchase-return">Back</button>
+        <button
+          mat-button
+          class="blueButton ml-2"
+          [disabled]="this.addPurchaseReturnsForm.inavlid || !isPurchaseSalesLoaded || !isAccountLoaded"
+          (click)="addPurchaseReturn(date.value)"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+  <br />
+</div>

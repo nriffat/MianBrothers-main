@@ -1,0 +1,127 @@
+<h2 mat-dialog-title>Edit Delivery Challan</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit delivery challan?</p>
+<div class="container-fluid">
+  <form [formGroup]="editDeliveryChallanForm">
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="example-form-field w-100">
+        <mat-label>Challan Date</mat-label>
+        <input matInput [matDatepicker]="datepicker1" #date required formControlName="challanDate"/>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepicker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepicker1>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="example-form-field w-100">
+        <mat-label>Time Of Supply</mat-label>
+        <input matInput [matDatepicker]="datepicker2" #date required formControlName="timeOfSupply"/>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepicker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepicker2>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Vehicle Description</mat-label>
+        <input matInput formControlName="vehicleDescription">
+      </mat-form-field>
+      <div
+      *ngIf="
+        editDeliveryChallanForm.controls['vehicleDescription'].invalid &&
+        (editDeliveryChallanForm.controls['vehicleDescription'].dirty ||
+          editDeliveryChallanForm.controls['vehicleDescription'].touched)
+      "
+    >
+      <mat-error
+        *ngIf="editDeliveryChallanForm.controls['vehicleDescription']?.errors?.required"
+        >Vehicle Description is required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          editDeliveryChallanForm.controls['vehicleDescription']?.errors?.minlength ||
+          editDeliveryChallanForm.controls['vehicleDescription']?.errors?.maxlength
+        "
+        >Must be between 3 - 30 Characters</mat-error
+      >
+    </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Driver Name</mat-label>
+        <input matInput formControlName="driverName">
+      </mat-form-field>
+      <div
+      *ngIf="
+        editDeliveryChallanForm.controls['driverName'].invalid &&
+        (editDeliveryChallanForm.controls['driverName'].dirty ||
+          editDeliveryChallanForm.controls['driverName'].touched)
+      "
+    >
+      <mat-error
+        *ngIf="editDeliveryChallanForm.controls['driverName']?.errors?.required"
+        >Driver Name is required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          editDeliveryChallanForm.controls['driverName']?.errors?.minlength ||
+          editDeliveryChallanForm.controls['driverName']?.errors?.maxlength
+        "
+        >Must be between 3 - 30 Characters</mat-error
+      >
+    </div>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Challan Description</mat-label>
+        <input matInput formControlName="challanDescription">
+      </mat-form-field>
+      <div
+      *ngIf="
+        editDeliveryChallanForm.controls['challanDescription'].invalid &&
+        (editDeliveryChallanForm.controls['challanDescription'].dirty ||
+          editDeliveryChallanForm.controls['challanDescription'].touched)
+      "
+    >
+      <mat-error
+        *ngIf="editDeliveryChallanForm.controls['challanDescription']?.errors?.required"
+        >challan Description is required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          editDeliveryChallanForm.controls['challanDescription']?.errors?.minlength ||
+          editDeliveryChallanForm.controls['challanDescription']?.errors?.maxlength
+        "
+        >Must be between 3 - 30 Characters</mat-error
+      >
+    </div>
+    </div>
+  </div>
+  </form>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onEditDeliveryChallan()" [disabled]="editDeliveryChallanForm.invalid">Edit</button>
+</mat-dialog-actions>

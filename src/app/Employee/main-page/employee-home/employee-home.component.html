@@ -1,0 +1,89 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened="true">
+    <mat-list role="list">
+      <div class="ml-2">
+        <img src="..\assets\Group 337453 1.png" routerLink="/system-choice" alt="" />
+      </div>
+      <!-- <h1 style="text-align: center" class="heading">Mian Brothers</h1> -->
+      <mat-selection-list #shoes [multiple]="false">
+        <mat-list role="list" style="cursor: pointer">
+          <mat-list-item
+            role="listitem"
+            routerLink="/employee-home/finance-dashboard"
+          >
+            <mat-icon>
+              <span class="material-symbols-outlined">
+                dashboard_customize
+              </span>
+            </mat-icon>
+            Dashboard</mat-list-item
+          >
+          <mat-list-item
+            role="listitem"
+            routerLink="/employee-home/chart-of-account"
+          >
+            <mat-icon>
+              <span class="material-symbols-outlined"> equalizer </span>
+            </mat-icon>
+            Charts Of Accounts</mat-list-item
+          >
+          <mat-list-item role="listitem" routerLink="/employee-home/purchases">
+            <mat-icon>
+              <span class="material-symbols-outlined"> loyalty </span>
+            </mat-icon>
+            Purchases</mat-list-item
+          >
+          <mat-list-item role="listitem" routerLink="/employee-home/sales">
+            <mat-icon>
+              <span class="material-symbols-outlined"> token </span>
+            </mat-icon>
+            Sales</mat-list-item
+          >
+          <mat-list-item role="listitem" routerLink="/employee-home/reports">
+            <mat-icon>
+              <span class="material-symbols-outlined"> list </span>
+            </mat-icon>
+            Reports</mat-list-item
+          >
+          <mat-list-item
+            role="listitem"
+            routerLink="/employee-home/adjustments"
+          >
+            <mat-icon>
+              <span class="material-symbols-outlined">
+                fact_check
+                </span>
+            </mat-icon>
+            Adjustments</mat-list-item
+          >
+        </mat-list>
+
+        <div style="margin-top: 120%">
+          <mat-list-item
+            role="listitem"
+            routerLink="/"
+          >
+            <mat-icon>
+              <span class="material-symbols-outlined"> logout </span>
+            </mat-icon>
+            Logout</mat-list-item
+          >
+        </div>
+
+        <!-- <mat-list-option
+          *ngFor="let items of userItems"
+          [value]="items.routeName"
+          (click)="loadUserInformationComponent(items.routeName)"
+        >
+          {{ items.displayName }}
+        </mat-list-option> -->
+      </mat-selection-list>
+    </mat-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet style="width: 100%"></router-outlet>
+
+    <!-- <app-employee-dashboard></app-employee-dashboard> -->
+  </mat-drawer-content>
+</mat-drawer-container>

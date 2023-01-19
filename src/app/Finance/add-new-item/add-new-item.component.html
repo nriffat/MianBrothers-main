@@ -1,0 +1,74 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Add New Item</h1>
+  </div>
+
+  <div class="row ">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/purchases">Purchase</mat-chip> /
+        <mat-chip selected>Add New Item</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="itemForm">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Item Type</mat-label>
+          <mat-select disableRipple (selectionChange)="changeValue($event.value)">
+            <mat-option value="Raw">Raw</mat-option>
+            <mat-option value="Finished-Good">Finished-Good</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+   <div class="row">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Item Code</mat-label>
+          <input matInput #itemCode formControlName="itemCode" required type="number">
+        </mat-form-field>
+        <div *ngIf="itemForm.controls['itemCode'].invalid && (itemForm.controls['itemCode'].dirty || itemForm.controls['itemCode'].touched)">
+          <mat-error *ngIf="
+          itemForm.controls['itemCode']?.errors?.required
+          ">item Code is required</mat-error>
+        <mat-error
+          *ngIf="
+            itemForm.controls['itemCode']?.errors?.min ||
+            itemForm.controls['itemCode']?.errors?.max
+          "
+          >Must be between 1 - 10000000 Characters</mat-error
+        >
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Item Name</mat-label>
+          <input matInput #itemName formControlName="itemName" required>
+        </mat-form-field>
+        <div *ngIf="itemForm.controls['itemName'].invalid && (itemForm.controls['itemName'].dirty || itemForm.controls['itemName'].touched)">
+          <mat-error *ngIf="
+          itemForm.controls['itemName']?.errors?.required
+          ">item Name is required</mat-error>
+        <mat-error
+          *ngIf="
+            itemForm.controls['itemName']?.errors?.minlength ||
+            itemForm.controls['itemName']?.errors?.maxlength
+          "
+          >Must be between 3 - 30 Characters</mat-error
+        >
+        </div>
+      </div>
+    </div>
+  </form>
+    <div class="row mr-1" style="float: right;">
+        <button mat-button routerLink="/inventory-dashboard/inventory-balance">Back</button>
+        <button [disabled]="this.itemForm.invalid || itemForm.pristine" mat-button class="blueButton ml-2" (click)="addNewItem(itemCode.value,itemName.value)">Add</button>
+      </div>
+  </div>
+
+</div>

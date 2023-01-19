@@ -1,0 +1,280 @@
+<h2 mat-dialog-title>Edit Bill</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit bill?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editOrderUsage">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Unit</mat-label>
+            <input matInput formControlName="unit" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrderUsage.controls['unit'].invalid &&
+              (editOrderUsage.controls['unit'].dirty ||
+                editOrderUsage.controls['unit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.unit.errors?.['required']
+            "
+              >Unit is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.unit.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.unit.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Quantity Used</mat-label>
+            <input matInput formControlName="quantityUsed" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrderUsage.controls['quantityUsed'].invalid &&
+              (editOrderUsage.controls['quantityUsed'].dirty ||
+                editOrderUsage.controls['quantityUsed'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.quantityUsed.errors?.['required']
+            "
+              >Quantity Used is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.quantityUsed.errors?.['min']
+            "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.quantityUsed.errors?.['max']
+            "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Rate</mat-label>
+            <input matInput formControlName="rate" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrderUsage.controls['rate'].invalid &&
+              (editOrderUsage.controls['rate'].dirty ||
+                editOrderUsage.controls['rate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.rate.errors?.['required']
+            "
+              >Rate is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.rate.errors?.['min']
+            "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrderUsage.controls.rate.errors?.['max']
+            "
+              >Max 100000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="container-fluid">
+    <form [formGroup]="editOrder">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Unit</mat-label>
+            <input matInput formControlName="unit" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrder.controls['unit'].invalid &&
+              (editOrder.controls['unit'].dirty ||
+                editOrder.controls['unit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.unit.errors?.['required']
+            "
+              >Unit is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.unit.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.unit.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity</mat-label>
+            <input matInput formControlName="quantity" type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrder.controls['quantity'].invalid &&
+              (editOrder.controls['quantity'].dirty ||
+                editOrder.controls['quantity'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.quantity.errors?.['required']
+            "
+              >Quantity is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.quantity.errors?.['min']
+            "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.quantity.errors?.['max']
+            "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Rate</mat-label>
+            <input matInput formControlName="rate" type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrder.controls['rate'].invalid &&
+              (editOrder.controls['rate'].dirty ||
+                editOrder.controls['rate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.rate.errors?.['required']
+            "
+              >Rate Used is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.rate.errors?.['min']
+            "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.rate.errors?.['max']
+            "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Labour Cost</mat-label>
+            <input matInput formControlName="labourCost" type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrder.controls['labourCost'].invalid &&
+              (editOrder.controls['labourCost'].dirty ||
+                editOrder.controls['labourCost'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.labourCost.errors?.['required']
+            "
+              >Labour Cost Used is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.labourCost.errors?.['min']
+            "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.labourCost.errors?.['max']
+            "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Factory Over Head</mat-label>
+            <input matInput formControlName="factoryOverhead" type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editOrder.controls['factoryOverhead'].invalid &&
+              (editOrder.controls['factoryOverhead'].dirty ||
+                editOrder.controls['factoryOverhead'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.factoryOverhead.errors?.['required']
+            "
+              >Factory Overhead Used is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.factoryOverhead.errors?.['min']
+            "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.editOrder.controls.factoryOverhead.errors?.['max']
+            "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="editPurchaseOrders()" [disabled]="editOrder.invalid || editOrderUsage.invalid">
+    Edit
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,37 @@
+<div class="container-fluid mt-5">
+  <mat-card>
+    <h2 class="headingMain">Define Roles</h2>
+    <div class="row mt-5">
+      <div class="col-md-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Serial Number</mat-label>
+          <mat-select disableRipple>
+            <mat-option
+              *ngFor="
+                let userData of this.allUsers;
+                let i = index
+              "
+              [value]="userData.username"
+              (click)="loadAccount(i)"
+              >{{ userData.username }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+    <div *ngIf="disableCheck">
+    <ul>
+      <li *ngFor="let item of list">
+        <input type="checkbox" [(ngModel)]="item.checked" />{{ item.name }}
+      </li>
+    </ul>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" [disabled]="!disableCheck" (click)="updateRoles()">
+        Update
+      </button>
+      <button mat-raised-button class="ml-2" routerLink="/system-users">Back</button>
+    </div>
+  </mat-card>
+</div>

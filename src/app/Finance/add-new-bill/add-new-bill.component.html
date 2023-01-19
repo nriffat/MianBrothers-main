@@ -1,0 +1,374 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Add New Bill</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic">Store</mat-chip> /
+        <mat-chip
+          style="background-color: green; color: white"
+          (click)="routeToBill()"
+          >Bill Of Material</mat-chip
+        >
+        /
+        <mat-chip color="primary" selected>Add New Bill</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="addNewBillForm">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial No.</mat-label>
+            <input
+              matInput
+              #serialNumber
+              required
+              formControlName="serialNumber"
+              type="text"
+              minLength="3"
+              maxlength="30"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addNewBillForm.controls['serialNumber'].invalid &&
+              (addNewBillForm.controls['serialNumber'].dirty ||
+                addNewBillForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.serialNumber.errors?.['required']
+            "
+              >Serial Number is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.serialNumber.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.serialNumber.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Finished Product Code.</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="
+                  let finishedGoods of this.allFinishedData;
+                  let i = index
+                "
+                [value]="finishedGoods.itemCode"
+                (click)="loadFinishedGoods(i)"
+                >{{ finishedGoods.itemCode }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Finished Product Name</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isFinishedCode
+                  ? this.allFinishedData[finished_index]?.productName
+                  : ''
+              "
+            />
+
+            <!-- <mat-select disableRipple (selectionChange)="changeValue($event.value)">
+              <mat-option value="Raw">Raw</mat-option>
+              <mat-option value="Finished-Good">Finished-Good</mat-option>
+            </mat-select> -->
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Finished Product Quantity</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isFinishedCode
+                  ? this.allFinishedData[finished_index]?.totalQuantity
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Unit</mat-label>
+            <input matInput #itemCode required formControlName="unit" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addNewBillForm.controls['unit'].invalid &&
+              (addNewBillForm.controls['unit'].dirty ||
+                addNewBillForm.controls['unit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.unit.errors?.['required']
+            "
+              >Unit is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.unit.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.unit.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Quantity</mat-label>
+            <input
+              matInput
+              #itemCode
+              required
+              type="number"
+              formControlName="quantity"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addNewBillForm.controls['quantity'].invalid &&
+              (addNewBillForm.controls['quantity'].dirty ||
+                addNewBillForm.controls['quantity'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.quantity.errors?.['required']
+            "
+              >Quantity is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.quantity.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.quantity.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Estimated Labour Cost</mat-label>
+            <input
+              matInput
+              #itemName
+              required
+              formControlName="estimatedLabourCost"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addNewBillForm.controls['estimatedLabourCost'].invalid &&
+              (addNewBillForm.controls['estimatedLabourCost'].dirty ||
+                addNewBillForm.controls['estimatedLabourCost'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.estimatedLabourCost.errors?.['required']
+            "
+              >Estimated Labour Cost is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.estimatedLabourCost.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.estimatedLabourCost.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Estimated Factory Over Heads</mat-label>
+            <input
+              matInput
+              #itemName
+              required
+              formControlName="estimatedFactoryOver"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addNewBillForm.controls['estimatedFactoryOver'].invalid &&
+              (addNewBillForm.controls['estimatedFactoryOver'].dirty ||
+                addNewBillForm.controls['estimatedFactoryOver'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.estimatedFactoryOver.errors?.['required']
+            "
+              >Estimated Factory Over is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.estimatedFactoryOver.errors?.['minlength']
+            "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+            this.addNewBillForm.controls.estimatedFactoryOver.errors?.['maxlength']
+            "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="form-group" *ngIf="forms != null">
+      <div *ngFor="let f of forms; let ind = index">
+        <form
+          novalidate
+          #itemCodeForm="ngForm"
+          (ngSubmit)="onSubmit(f)"
+          [formGroup]="f.formGroup"
+        >
+          <ng-container>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ f.metaData[0].label }}</mat-label>
+                  <mat-select disableRipple>
+                    <mat-option
+                      *ngFor="let iCode of this.allRawData; let i = index"
+                      [value]="iCode.itemCode"
+                      (click)="loadRawGoods(ind, iCode.itemCode)"
+                      >{{ iCode.itemCode }}</mat-option
+                    >
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ f.metaData[1].label }}</mat-label>
+                  <input
+                    matInput
+                    #itemName
+                    required
+                    required
+                    [formControlName]="f.metaData[1].key"
+                    [id]="f.metaData[1].key"
+                    maxLength="5"
+                  />
+                  <mat-error *ngIf="f.metaData[1].Validation.required"
+                    >Quantity is Required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ f.metaData[2].label }}</mat-label>
+                  <input
+                    matInput
+                    #itemName
+                    required
+                    [formControlName]="f.metaData[2].key"
+                    [id]="f.metaData[2].key"
+                  />
+                  <mat-error *ngIf="f.metaData[2].Validation.required"
+                    >Unit is Required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ f.metaData[3].label }}</mat-label>
+                  <input
+                    matInput
+                    #itemName
+                    required
+                    [id]="f.metaData[3].key"
+                    [formControlName]="f.metaData[3].key"
+                  />
+                  <mat-error *ngIf="f.metaData[3].Validation.required"
+                    >Rate is Required</mat-error
+                  >
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div (click)="deleteForm(ind)" class="col-md-2">
+                <a mat-button color="primary"
+                  ><mat-icon
+                    ><span class="material-symbols-outlined"> delete </span></mat-icon
+                  >
+                  Delete Items</a
+                >
+              </div>
+            </div>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+    <div (click)="createForm()" class="col-md-2">
+      <a mat-button color="primary"
+        ><mat-icon
+          ><span class="material-symbols-outlined"> add </span></mat-icon
+        >
+        Add More Items</a
+      >
+    </div>
+
+    <div class="row mr-1" style="float: right">
+      <button mat-button routerLink="/inventory-dashboard/bill-of-material">Back</button>
+      <button
+        mat-button
+        class="blueButton ml-2"
+        (click)="addBillOfMaterial()"
+        [disabled]="addNewBillForm.invalid || !isFinishedCode"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <!-- <button [disabled]="this.itemForm.invalid || itemForm.pristine" mat-button class="blueButton ml-2" (click)="addNewItem(itemCode.value,itemName.value)">Add</button> -->
+</div>

@@ -1,0 +1,68 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.headingMain{
+  font-weight: bold;
+  font-size: 30px;
+}
+.redText{
+  color:red
+}
+
+.price{
+  font-weight: bolder;
+  color:rgb(10, 116, 238)
+}
+
+.greenButton{
+  background-color: rgb(205, 209, 205);
+  color: #ffff;
+}
+.greenButton{
+  background-color: green;
+  color: #ffff;
+}
+.tealButton{
+  background-color: teal;
+  color: #ffff;
+}
+
+.orangeButton{
+  background-color: darkorange;
+  color: #ffff;
+}
+.redButton{
+  background-color: red;
+  color: #ffff;
+}
+
+.blueButton{
+  background-color: rgb(10, 116, 238);
+  color: #ffff;
+}
+
+table {
+  width: 100%;
+}
+
+.colorBlue{
+color:rgb(10, 116, 238)
+}
+.colorWhite{
+  color:#ffff
+}
+
+.positioned {
+  position: absolute;
+  left: 0;
+  transform: translateX(-100%);
+}
+
+
+table {
+  width: 100%;
+}
+
+

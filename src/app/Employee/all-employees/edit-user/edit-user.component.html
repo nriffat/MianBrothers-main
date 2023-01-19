@@ -1,0 +1,224 @@
+<h2 mat-dialog-title>Edit Employee</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit employee?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editEmployeeForm">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="fullName" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editEmployeeForm.controls['fullName'].invalid &&
+              (editEmployeeForm.controls['fullName'].dirty ||
+                editEmployeeForm.controls['fullName'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editEmployeeForm.controls['fullName']?.errors?.required"
+            >
+              Full Name Is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                editEmployeeForm.controls['fullName']?.errors?.minlength ||
+                editEmployeeForm.controls['fullName']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Position</mat-label>
+            <input matInput formControlName="position" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editEmployeeForm.controls['position'].invalid &&
+              (editEmployeeForm.controls['position'].dirty ||
+                editEmployeeForm.controls['position'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editEmployeeForm.controls['position']?.errors?.required"
+            >
+              Position Is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                editEmployeeForm.controls['position']?.errors?.minlength ||
+                editEmployeeForm.controls['position']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Department</mat-label>
+            <input matInput formControlName="department" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editEmployeeForm.controls['department'].invalid &&
+              (editEmployeeForm.controls['department'].dirty ||
+                editEmployeeForm.controls['department'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editEmployeeForm.controls['department']?.errors?.required"
+            >
+              Department Is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                editEmployeeForm.controls['department']?.errors?.minlength ||
+                editEmployeeForm.controls['department']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Salary</mat-label>
+            <input matInput formControlName="salary" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editEmployeeForm.controls['salary'].invalid &&
+              (editEmployeeForm.controls['salary'].dirty ||
+                editEmployeeForm.controls['salary'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editEmployeeForm.controls['salary']?.errors?.required"
+            >
+              Salary Is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                editEmployeeForm.controls['salary']?.errors?.min ||
+                editEmployeeForm.controls['salary']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Joining Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker1"
+              formControlName="joiningDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Cnic</mat-label>
+            <input matInput formControlName="cnic" />
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>DOB</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker2"
+              formControlName="dob"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker2>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="addressInformation" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editEmployeeForm.controls['addressInformation'].invalid &&
+              (editEmployeeForm.controls['addressInformation'].dirty ||
+                editEmployeeForm.controls['addressInformation'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                editEmployeeForm.controls['addressInformation']?.errors
+                  ?.required
+              "
+            >
+              address Is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                editEmployeeForm.controls['addressInformation']?.errors
+                  ?.minlength ||
+                editEmployeeForm.controls['addressInformation']?.errors
+                  ?.maxlength
+              "
+              >Must be between 2 - 50 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Leaving Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker3"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker3>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="editEmployee()" [disabled]="editEmployeeForm.invalid">Edit</button>
+</mat-dialog-actions>

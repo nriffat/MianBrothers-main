@@ -1,0 +1,73 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Add Main Account</h1>
+  </div>
+
+  <div class="row ">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/chart-of-account">Chart of Account</mat-chip> /
+        <mat-chip color="primary" selected>Add Main Account</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="mainAccountForm">
+   <div class="row ">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Main Account Code</mat-label>
+          <input matInput #accountCode formControlName="accountCode">
+        </mat-form-field>
+        <div
+            *ngIf="
+              mainAccountForm.controls['accountCode'].invalid &&
+              (mainAccountForm.controls['accountCode'].dirty ||
+                mainAccountForm.controls['accountCode'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                mainAccountForm.controls['accountCode']?.errors?.required ||
+                mainAccountForm.controls['accountCode']?.errors?.min ||
+                mainAccountForm.controls['accountCode']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Main Account Type</mat-label>
+          <input matInput #accountType formControlName="accountType">
+        </mat-form-field>
+        <div
+            *ngIf="
+              mainAccountForm.controls['accountType'].invalid &&
+              (mainAccountForm.controls['accountType'].dirty ||
+                mainAccountForm.controls['accountType'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                mainAccountForm.controls['accountType']?.errors?.required ||
+                mainAccountForm.controls['accountType']?.errors?.min ||
+                mainAccountForm.controls['accountType']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+      </div>
+    </div>
+  </form>
+    <div class="row">
+      <div class="col-md-10"></div>
+      <div class="col-md-2">
+        <button mat-button routerLink="/employee-home/choose-account">Back</button>
+        <button mat-button class="blueButton ml-2" [disabled]="mainAccountForm.invalid || mainAccountForm.pristine" (click)="addNewMainAccount(accountCode.value,accountType.value)">Add</button>
+      </div>
+    </div>
+  </div>
+
+</div>

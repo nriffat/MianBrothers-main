@@ -1,0 +1,453 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Add Customer</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/sales">Sales</mat-chip> /
+        <mat-chip
+          style="background-color: green; color: white"
+          routerLink="/employee-home/sales-order"
+          >Sales Order</mat-chip
+        >
+        /
+        <mat-chip selected>Add Customer</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="container-fluid mt-5">
+    <form [formGroup]="addCustomerForm">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Code</mat-label>
+            <input matInput #customerCode required formControlName="customerCode" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['customerCode'].invalid &&
+              (addCustomerForm.controls['customerCode'].dirty ||
+                addCustomerForm.controls['customerCode'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['customerCode']?.errors?.required"
+              >Customer Code is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['customerCode']?.errors?.minlength ||
+                addCustomerForm.controls['customerCode']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Name</mat-label>
+            <input matInput #customerName required formControlName="customerName" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['customerName'].invalid &&
+              (addCustomerForm.controls['customerName'].dirty ||
+                addCustomerForm.controls['customerName'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['customerName']?.errors?.required"
+              >Customer Name is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['customerName']?.errors?.minLength ||
+                addCustomerForm.controls['customerName']?.errors?.maxLength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Order Limit</mat-label>
+            <input type="number" required #limit matInput formControlName="orderLimit" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['orderLimit'].invalid &&
+              (addCustomerForm.controls['orderLimit'].dirty ||
+                addCustomerForm.controls['orderLimit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['orderLimit']?.errors?.required"
+              >Order Limit is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['orderLimit']?.errors?.minLength ||
+                addCustomerForm.controls['orderLimit']?.errors?.maxLength
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Code</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.allAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadAccount(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Name</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isAccountLoaded
+                  ? this.allAccounts[account_index]?.accountType
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Balance</mat-label>
+            <input matInput formControlName="balance" type="number" required/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['balance'].invalid &&
+              (addCustomerForm.controls['balance'].dirty ||
+                addCustomerForm.controls['balance'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['balance']?.errors?.required"
+              >Balance is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['balance']?.errors?.minLength ||
+                addCustomerForm.controls['balance']?.errors?.maxLength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Contact Person</mat-label>
+            <input matInput #contactPerson required formControlName="contactPerson" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['contactPerson'].invalid &&
+              (addCustomerForm.controls['contactPerson'].dirty ||
+                addCustomerForm.controls['contactPerson'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['contactPerson']?.errors?.required
+              "
+              >Contact Person is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['contactPerson']?.errors?.minLength ||
+                addCustomerForm.controls['contactPerson']?.errors?.maxLength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Mobile</mat-label>
+            <input matInput #mobile required formControlName="mobile" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['mobile'].invalid &&
+              (addCustomerForm.controls['mobile'].dirty ||
+                addCustomerForm.controls['mobile'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['mobile']?.errors?.required"
+              >Mobile is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['mobile']?.errors?.required ||
+                addCustomerForm.controls['mobile']?.errors?.pattern
+              "
+              >Must be 11 numbers with hyphen.</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input matInput #email required formControlName="email" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['email'].invalid &&
+              (addCustomerForm.controls['email'].dirty ||
+                addCustomerForm.controls['email'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['email']?.errors?.required"
+              >Email is required</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Address</mat-label>
+            <textarea
+              matInput
+              #address
+              required
+              rows="8"
+              formControlName="address"
+            ></textarea>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['address'].invalid &&
+              (addCustomerForm.controls['address'].dirty ||
+                addCustomerForm.controls['address'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['address']?.errors?.required"
+              >Address is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['address']?.errors?.minlength ||
+                addCustomerForm.controls['address']?.errors?.maxlength
+              "
+              >Must be between 2 - 50 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Region</mat-label>
+            <input matInput #region  formControlName="region" required/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['region'].invalid &&
+              (addCustomerForm.controls['region'].dirty ||
+                addCustomerForm.controls['region'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['region']?.errors?.required"
+              >Region is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['region']?.errors?.minlength ||
+                addCustomerForm.controls['region']?.errors?.maxlength
+              "
+              >Must be between 2 - 50 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Manager</mat-label>
+            <input matInput #accountManager required formControlName="accountManager"/>
+            <div
+              *ngIf="
+                addCustomerForm.controls['accountManager'].invalid &&
+                (addCustomerForm.controls['accountManager'].dirty ||
+                  addCustomerForm.controls['accountManager'].touched)
+              "
+            >
+              <mat-error
+                *ngIf="
+                  addCustomerForm.controls['accountManager']?.errors?.required
+                "
+                >Account Manager is required</mat-error
+              >
+              <mat-error
+                *ngIf="
+                  addCustomerForm.controls['accountManager']?.errors?.minlength ||
+                  addCustomerForm.controls['accountManager']?.errors?.maxlength
+                "
+                >Must be between 3 - 30 Characters</mat-error
+              >
+            </div>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>S.T Reg No.</mat-label>
+            <input matInput #stNumber  required type="number" formControlName="stNumber"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['stNumber'].invalid &&
+              (addCustomerForm.controls['stNumber'].dirty ||
+                addCustomerForm.controls['stNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['stNumber']?.errors?.required"
+              >ST Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['stNumber']?.errors?.minlength ||
+                addCustomerForm.controls['stNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>NTN</mat-label>
+            <input matInput required #ntn formControlName="ntn"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['ntn'].invalid &&
+              (addCustomerForm.controls['ntn'].dirty ||
+                addCustomerForm.controls['ntn'].touched)
+            "
+          >
+            <mat-error *ngIf="addCustomerForm.controls['ntn']?.errors?.required"
+              >NTN Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['ntn']?.errors?.required ||
+                addCustomerForm.controls['ntn']?.errors?.pattern
+              "
+            >
+              NTN should be exactly 9 characters long. Should include hyphen
+              before the check digit.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>CNIC</mat-label>
+            <input matInput  #ntn formControlName="cnic" required />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['cnic'].invalid &&
+              (addCustomerForm.controls['cnic'].dirty ||
+                addCustomerForm.controls['cnic'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['cnic']?.errors?.required"
+              >CNIC Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['cnic']?.errors?.required ||
+                addCustomerForm.controls['cnic']?.errors?.pattern
+              "
+            >
+              CNIC should be exactly 9 characters long. Should include hyphen
+              before the check digit.
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Credit Limit</mat-label>
+            <input matInput #creditLimit formControlName="creditLimit" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['creditLimit'].invalid &&
+              (addCustomerForm.controls['creditLimit'].dirty ||
+                addCustomerForm.controls['creditLimit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['creditLimit']?.errors?.required"
+              >Credit Limit is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['creditLimit']?.errors?.minlength ||
+                addCustomerForm.controls['creditLimit']?.errors?.maxlength
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Credit terms</mat-label>
+            <input matInput #creditTerms formControlName="creditTerms" required/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCustomerForm.controls['creditTerms'].invalid &&
+              (addCustomerForm.controls['creditTerms'].dirty ||
+                addCustomerForm.controls['creditTerms'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="addCustomerForm.controls['creditTerms']?.errors?.required"
+              >Credit Terms is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCustomerForm.controls['creditTerms']?.errors?.minlength ||
+                addCustomerForm.controls['creditTerms']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row" style="float: right">
+      <button mat-button routerLink="/employee-home/sales-tax-invoices">Back</button>
+      <button mat-button class="blueButton ml-5" (click)="saveCustomer()" [disabled]="!this.isAccountLoaded ">
+        Add
+      </button>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+</div>

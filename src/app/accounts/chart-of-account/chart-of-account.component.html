@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 headingMain">Chart Of Account</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10"></div>
+    <div class="col-md-2">
+          <button mat-button class="blueButton ml-2" routerLink="/employee-home/choose-account">Add New Account</button>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-card>
+          <mat-card-title>Main Account</mat-card-title>
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Main Account Code</mat-label>
+              <mat-select>
+                <mat-option *ngFor="let mainAccountData of this.mainAccounts;let i=index" [value]="mainAccountData.accountCode" (click)="loadMainData(i)">{{mainAccountData.accountCode}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Main Account Type</mat-label>
+              <input matInput [value]="isMainAccountLoaded ? this.mainAccounts[mainAccount_index]?.accountType: ''">
+            </mat-form-field>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-4">
+        <mat-card>
+          <mat-card-title>Sub Account</mat-card-title>
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Sub Account Code</mat-label>
+              <mat-select  id="subList" >
+                <mat-option *ngFor="let subAccountData of this.subAccounts;let i=index" [value]="subAccountData.accountCode" (click)="loadSubData(i)">{{subAccountData.accountCode}}</mat-option>
+              </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Sub Account Type</mat-label>
+              <input readonly matInput  [value]="isSubAccountLoaded ? this.subAccounts[subAccount_index]?.accountType: ''">
+            </mat-form-field>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-md-4">
+        <mat-card>
+          <mat-card-title>List Of Account</mat-card-title>
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>List Account Code</mat-label>
+              <mat-select id="dropList">
+                <mat-option  *ngFor="let listAccountData of this.listAccounts;let i=index" [value]="listAccountData.accountCode" (click)="loadListData(i)">{{listAccountData.accountCode}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>List Account Name</mat-label>
+              <input matInput [value]="isListAccountLoaded ? this.listAccounts[listAccount_index]?.accountType: ''">
+            </mat-form-field>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-4"><mat-card>
+        <mat-card-title>Main Account Names</mat-card-title>
+        <h3>{{isMainAccountLoaded ? this.mainAccounts[mainAccount_index]?.accountType: ''}}</h3>
+      </mat-card></div>
+      <div class="col-md-4"><mat-card>
+        <mat-card-title>Sub Account Names</mat-card-title>
+        <h3>{{isSubAccountLoaded ? this.subAccounts[subAccount_index]?.accountType: ''}}</h3>
+      </mat-card></div>
+      <div class="col-md-4"><mat-card>
+        <mat-card-title>List Of Account Names</mat-card-title>
+        <h3>
+          {{isListAccountLoaded ? this.listAccounts[listAccount_index]?.accountType: ''}}
+        </h3>
+      </mat-card></div>
+    </div>
+  </div>
+
+</div>

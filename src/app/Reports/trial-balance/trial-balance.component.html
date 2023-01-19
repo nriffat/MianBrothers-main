@@ -1,0 +1,538 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Trial Balance</h1>
+  </div>
+
+  <div class="col-md-7">
+    <mat-chip-list>
+      <mat-chip color="basic" routerLink="/employee-home/reports"
+        >Reports</mat-chip
+      >
+      /
+      <mat-chip
+        style="background-color: rgb(10, 116, 238); color: white"
+        selected
+        >Trial Balance</mat-chip
+      >
+    </mat-chip-list>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-md-4 offset-md-4">
+        <mat-chip
+          style="background-color: rgb(10, 116, 238); color: white"
+          (click)="onTwoColumn()"
+          >2 Column</mat-chip
+        >
+        <mat-chip color="basic" class="ml-5"
+        (click)="onSixColumn()"
+          >6 Column</mat-chip
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-card>
+          <button
+            color="primary"
+            mat-raised-button
+            [disabled]="
+            !this.disableSearchFrom ||
+            !this.disableSearchTo ||
+              !this.disableSearch
+            "
+            (click)="search()"
+          >
+            Search
+          </button>
+          <div class="row mt-3">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Account No</mat-label>
+                <mat-select disableRipple>
+                  <mat-option
+                    *ngFor="let accountData of this.allAccounts; let i = index"
+                    [value]="accountData.accountCode"
+                    (click)="loadAccount(i)"
+                    >{{ accountData.accountCode }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3 offset-md-2">
+              <mat-form-field
+                appearance="outline"
+                class="example-form-field ml-2 w-100"
+              >
+                <mat-label>From</mat-label>
+                <input matInput [matDatepicker]="datepicker2" #frome />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datepicker2"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datepicker2>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      matDatepickerApply
+                      (click)="getDate(frome.value)"
+                    >
+                      Apply
+                    </button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field
+                appearance="outline"
+                class="example-form-field ml-2 w-100"
+              >
+                <mat-label>To</mat-label>
+                <input
+                  readonly
+                  matInput
+                  [matDatepicker]="datepicker3"
+                  #toDate
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datepicker3"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datepicker3>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      matDatepickerApply
+                      (click)="getDate2(toDate.value)"
+                    >
+                      Apply
+                    </button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Account Name</mat-label>
+                <input
+                  matInput
+                  readonly
+                  [value]="
+                    isAccountCodeLoaded
+                      ? this.allAccounts[account_index]?.accountInfo
+                      : ''
+                  "
+                />
+                <!-- <mat-select disableRipple>
+                  <mat-option
+                    *ngFor="
+                      let purchaseData of this.purchaseTableData;
+                      let i = index
+                    "
+                    [value]="purchaseData.serialNumber"
+                    (click)="loadPurchase(i)"
+                    >{{ purchaseData.serialNumber }}
+                  </mat-option>
+                </mat-select> -->
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5" *ngIf="this.twoColumnCheck">
+
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <div class="row mr-4" style="float:right">
+      <button
+      [disabled]="!this.disablePrint"
+      mat-stroked-button
+      class="mb-2"
+      style="float: right"
+      (click)="printReceipt('MyDIv')"
+    >
+      Print
+    </button>
+    </div>
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- fullName Column -->
+      <ng-container matColumnDef="accountCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Code </th>
+        <td mat-cell *matCellDef="let row"> {{row.paidToCode}} </td>
+      </ng-container>
+
+      <!-- position Column -->
+      <ng-container matColumnDef="accountName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.paidToInfo}} </td>
+      </ng-container>
+
+      <!-- department Column -->
+      <ng-container matColumnDef="debit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Debit </th>
+        <td mat-cell *matCellDef="let row"> {{row.debit}} </td>
+      </ng-container>
+      <ng-container matColumnDef="credit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Credit </th>
+        <td mat-cell *matCellDef="let row"> {{row.credit}} </td>
+      </ng-container>
+      <!-- Fruit Column -->
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Delete</th>
+        <td mat-cell *matCellDef="let row; let i = index">
+          <mat-icon class="material-symbols-outlined">
+            delete
+          </mat-icon>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Edit</th>
+        <td mat-cell *matCellDef="let row; let i = index">
+          <mat-icon class="material-symbols-outlined">
+            edit
+          </mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <!-- <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr> -->
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+
+  <div class="container-fluid mt-5" *ngIf="this.sixColumnCheck">
+    <mat-form-field>
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter2($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <div class="row mr-4" style="float:right">
+      <button
+      [disabled]="!this.disablePrint"
+      mat-stroked-button
+      class="mb-2"
+      style="float: right"
+      (click)="printReceipt('MyDIv2')"
+    >
+      Print
+    </button>
+    </div>
+    <table mat-table [dataSource]="dataSource2" matSort2>
+      <!-- fullName Column -->
+      <ng-container matColumnDef="accountCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Code </th>
+        <td mat-cell *matCellDef="let row"> {{row.paidToCode}} </td>
+      </ng-container>
+
+      <!-- position Column -->
+      <ng-container matColumnDef="accountName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.paidToInfo}} </td>
+      </ng-container>
+      <ng-container matColumnDef="openingBalance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Opening Balance </th>
+        <td mat-cell *matCellDef="let row"> {{row.openingBalance}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Status </th>
+        <td mat-cell *matCellDef="let row"> {{row.status1}} </td>
+      </ng-container>
+      <!-- department Column -->
+      <ng-container matColumnDef="debit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Debit </th>
+        <td mat-cell *matCellDef="let row"> {{row.debit}} </td>
+      </ng-container>
+      <ng-container matColumnDef="credit">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Credit </th>
+        <td mat-cell *matCellDef="let row"> {{row.credit}} </td>
+      </ng-container>
+      <ng-container matColumnDef="closingBalance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Closing Balance </th>
+        <td mat-cell *matCellDef="let row"> {{row.closingBalance}} </td>
+      </ng-container>
+      <ng-container matColumnDef="netStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Net Status </th>
+        <td mat-cell *matCellDef="let row"> {{row.status2}} </td>
+      </ng-container>
+      <!-- Fruit Column -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <!-- <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      </tr> -->
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+  </div>
+</div>
+
+
+<!-- class="positioned"  -->
+<div id="MyDIv"  class="positioned">
+  <div class="container">
+    <div class="row" style="background-color: rgb(50, 120, 226)">
+      <div class="col-md-6">
+        <h1 class="mt-5" style="font-size: 30px; color: #ffff">
+          TRIAL BALANCE
+        </h1>
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <ul class="colorWhite">
+          +92-3334556767
+        </ul>
+        <ul class="colorWhite">
+          mianb@gmail.com
+        </ul>
+        <ul class="colorWhite">
+          G.S.T Regn. No: 1234-5678
+        </ul>
+      </div>
+      <div class="col-md-3 mt-2">
+        <ul class="colorWhite">
+          Mian Brothers Company (Pvt) Ltd
+        </ul>
+        <ul class="colorWhite">
+          Suit no. 10 Tower Heights
+        </ul>
+        <ul class="colorWhite">
+          Lahore,Pakistan
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="p-2">
+          <div class="row">
+            <h3>Account No.</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>
+              {{
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.accountCode
+                  : ""
+              }}
+            </h3>
+          </div>
+          <div class="row">
+            <h3>Account Name</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>
+              {{
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.accountInfo
+                  : ""
+              }}
+            </h3>
+          </div>
+        </div>
+        <mat-divider [inset]="true"></mat-divider>
+      </div>
+      <div class="container-fluid mt-5">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- fullName Column -->
+          <ng-container matColumnDef="accountCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Code </th>
+            <td mat-cell *matCellDef="let row"> {{row.paidToCode}} </td>
+          </ng-container>
+
+          <!-- position Column -->
+          <ng-container matColumnDef="accountName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.paidToInfo}} </td>
+          </ng-container>
+
+          <!-- department Column -->
+          <ng-container matColumnDef="debit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Debit </th>
+            <td mat-cell *matCellDef="let row"> {{row.debit}} </td>
+          </ng-container>
+          <ng-container matColumnDef="credit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Credit </th>
+            <td mat-cell *matCellDef="let row"> {{row.credit}} </td>
+          </ng-container>
+          <!-- Fruit Column -->
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Delete</th>
+            <td mat-cell *matCellDef="let row; let i = index">
+              <mat-icon class="material-symbols-outlined">
+                delete
+              </mat-icon>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Edit</th>
+            <td mat-cell *matCellDef="let row; let i = index">
+              <mat-icon class="material-symbols-outlined">
+                edit
+              </mat-icon>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <!-- <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr> -->
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page of users"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--MYDIV For 6 column-->
+<!-- class="positioned"  -->
+<div id="MyDIv2" class="positioned">
+  <div class="container">
+    <div class="row" style="background-color: rgb(50, 120, 226)">
+      <div class="col-md-6">
+        <h1 class="mt-5" style="font-size: 30px; color: #ffff">
+         Trial Balance
+        </h1>
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <ul class="colorWhite">
+          +92-3334556767
+        </ul>
+        <ul class="colorWhite">
+          mianb@gmail.com
+        </ul>
+        <ul class="colorWhite">
+          G.S.T Regn. No: 1234-5678
+        </ul>
+      </div>
+      <div class="col-md-3 mt-2">
+        <ul class="colorWhite">
+          Mian Brothers Company (Pvt) Ltd
+        </ul>
+        <ul class="colorWhite">
+          Suit no. 10 Tower Heights
+        </ul>
+        <ul class="colorWhite">
+          Lahore,Pakistan
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="p-2">
+          <div class="row">
+            <h3>Account No.</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>
+              {{
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.paidToCode
+                  : ""
+              }}
+            </h3>
+          </div>
+          <div class="row">
+            <h3>Account Name</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>
+              {{
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.accountInfo
+                  : ""
+              }}
+            </h3>
+          </div>
+        </div>
+        <mat-divider [inset]="true"></mat-divider>
+      </div>
+      <div class="container-fluid mt-5">
+        <table mat-table [dataSource]="dataSource2" matSort2>
+          <!-- fullName Column -->
+          <ng-container matColumnDef="accountCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Code </th>
+            <td mat-cell *matCellDef="let row"> {{row.paidToCode}} </td>
+          </ng-container>
+
+          <!-- position Column -->
+          <ng-container matColumnDef="accountName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Account Name </th>
+            <td mat-cell *matCellDef="let row"> {{row.paidToInfo}} </td>
+          </ng-container>
+          <ng-container matColumnDef="openingBalance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Opening Balance </th>
+            <td mat-cell *matCellDef="let row"> {{row.openingBalance}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Status </th>
+            <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+          </ng-container>
+          <!-- department Column -->
+          <ng-container matColumnDef="debit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Debit </th>
+            <td mat-cell *matCellDef="let row"> {{row.debit}} </td>
+          </ng-container>
+          <ng-container matColumnDef="credit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Credit </th>
+            <td mat-cell *matCellDef="let row"> {{row.credit}} </td>
+          </ng-container>
+          <ng-container matColumnDef="closingBalance">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Closing Balance </th>
+            <td mat-cell *matCellDef="let row"> {{row.closingBalance}} </td>
+          </ng-container>
+          <ng-container matColumnDef="netStatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Net Status </th>
+            <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+          </ng-container>
+          <!-- Fruit Column -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <!-- <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr> -->
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Select page of users"
+        ></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

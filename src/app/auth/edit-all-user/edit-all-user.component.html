@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Edit All User</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit all user?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editUser">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editUser.controls['username'].invalid &&
+              (editUser.controls['username'].dirty ||
+                editUser.controls['username'].touched)
+            "
+          >
+            <mat-error *ngIf="editUser.controls['username']?.errors?.required">
+              User name Is required
+            </mat-error>
+            <mat-error
+              *ngIf="
+                editUser.controls['username']?.errors?.minlength ||
+                editUser.controls['username']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="pass" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editUser.controls['pass'].invalid &&
+              (editUser.controls['pass'].dirty ||
+                editUser.controls['pass'].touched)
+            "
+          >
+            <mat-error *ngIf="editUser.controls['pass']?.errors?.required">
+              Pass Is required
+            </mat-error>
+            <mat-error *ngIf="editUser.controls['pass']?.errors?.minlength"
+              >Must be greater than 6 characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onEditUser()" [disabled]="editUser.invalid">Edit</button>
+</mat-dialog-actions>

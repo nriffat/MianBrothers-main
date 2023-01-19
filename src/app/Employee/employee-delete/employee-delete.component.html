@@ -1,0 +1,113 @@
+<div class="container-fluid mt-5">
+
+  <h1 class="heading ml-3 headingMain">Delete Employee</h1>
+  <div class="row p-3">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic"  routerLink="/employee-home/all-employees">Dashboard</mat-chip> /
+        <mat-chip selected>Delete Employee</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="row p-3">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Full Name</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Position</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Deprtment</mat-label>
+        <mat-select disableRipple>
+          <mat-option value="1">Option 1</mat-option>
+          <mat-option value="2">Option 2</mat-option>
+          <mat-option value="3">Option 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row p-3">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Salary</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="example-form-field w-100">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="datepicker3">
+        <mat-datepicker-toggle matSuffix [for]="datepicker3"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker3>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Salary</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row p-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="example-form-field w-100">
+          <mat-label>DOB</mat-label>
+          <input matInput [matDatepicker]="datepicker4">
+          <mat-datepicker-toggle matSuffix [for]="datepicker4"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker4>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancel</button>
+              <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Address</mat-label>
+          <input matInput>
+        </mat-form-field>
+      </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Email Address</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row p-3">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Remarks</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Reference</mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <div class="row p-3" style="float:right">
+    <button mat-button routerLink="/employee-home/all-employees">Back</button>
+    <button mat-button class="blueButton ml-5">Save</button>
+  </div>
+
+</div>

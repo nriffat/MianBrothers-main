@@ -1,0 +1,378 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Add Purchase Sales Tax</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/purchases">Purchase</mat-chip> /
+        <mat-chip style="color:white;background-color:darkorange" routerLink="/purchase-sales-tax">Purchase Sales Tax</mat-chip> /
+        <mat-chip color="primary" selected >Add Purchase Sales Tax</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+    <form [formGroup]="addPurchaseSalesForm">
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial Number</mat-label>
+            <input matInput #serialNumber formControlName="serialNumber" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addPurchaseSalesForm.controls['serialNumber'].invalid &&
+              (addPurchaseSalesForm.controls['serialNumber'].dirty ||
+                addPurchaseSalesForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addPurchaseSalesForm.controls['serialNumber']?.errors?.required
+              "
+              >Serial Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addPurchaseSalesForm.controls['serialNumber']?.errors
+                  ?.minlength ||
+                addPurchaseSalesForm.controls['serialNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker1" #date required formControlName="orderDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor Invoice Number</mat-label>
+            <input matInput #serialNumber formControlName="vendorInvoiceNumber" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addPurchaseSalesForm.controls['vendorInvoiceNumber'].invalid &&
+              (addPurchaseSalesForm.controls['vendorInvoiceNumber'].dirty ||
+                addPurchaseSalesForm.controls['vendorInvoiceNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addPurchaseSalesForm.controls['vendorInvoiceNumber']?.errors?.required
+              "
+              >Vendor Invoice Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addPurchaseSalesForm.controls['vendorInvoiceNumber']?.errors
+                  ?.minlength ||
+                addPurchaseSalesForm.controls['vendorInvoiceNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker2" #vendorDate required formControlName="vendorDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker2>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Purchase Order Number</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let purchaseData of this.getPurchaseOrders; let i = index"
+                [value]="purchaseData.serialNumber"
+                (click)="loadPurchase(i)"
+                >{{ purchaseData.serialNumber }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Dated</mat-label>
+            <input
+              readonly
+              matInput
+              [matDatepicker]="datepicker3"
+              [value]="
+                isPurchaseLoaded
+                  ? this.getPurchaseOrders[purchase_index]?.deliveryDate
+                  : ''
+              "
+              required
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker3>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Discount</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="discount"
+              required
+            />
+          </mat-form-field>
+          <div
+          *ngIf="
+            addPurchaseSalesForm.controls['discount'].invalid &&
+            (addPurchaseSalesForm.controls['discount'].dirty ||
+              addPurchaseSalesForm.controls['discount'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              addPurchaseSalesForm.controls['discount']?.errors?.required
+            "
+            >Discount is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addPurchaseSalesForm.controls['discount']?.errors
+                ?.min ||
+              addPurchaseSalesForm.controls['discount']?.errors?.max
+            "
+            >Must be between 1 - 1000000 Characters</mat-error
+          >
+        </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Terms Of Payment</mat-label>
+            <input
+              matInput
+              required
+              formControlName="termsOfPayment"
+            />
+          </mat-form-field>
+          <div
+          *ngIf="
+            addPurchaseSalesForm.controls['termsOfPayment'].invalid &&
+            (addPurchaseSalesForm.controls['termsOfPayment'].dirty ||
+              addPurchaseSalesForm.controls['termsOfPayment'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              addPurchaseSalesForm.controls['termsOfPayment']?.errors?.required
+            "
+            >Terms Of Payment is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addPurchaseSalesForm.controls['termsOfPayment']?.errors
+                ?.minlength ||
+              addPurchaseSalesForm.controls['termsOfPayment']?.errors?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Expense Account</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.allAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadAccount(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Expense Account Type</mat-label>
+            <input
+             readonly
+              matInput
+              [value]="
+                isAccountLoaded
+                  ? this.allAccounts[account_index]?.accountType
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor Code</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let pCode of this.vendorCodes; let i = index"
+                [value]="pCode.vendorCode"
+                (click)="loadProduct(i)"
+                >{{ pCode.vendorCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>vendor Name</mat-label>
+            <input
+             readonly
+              matInput
+              [value]="
+                isProductCodeLoaded
+                  ? this.vendorCodes[product_index]?.vendorName
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>vendor Telephone</mat-label>
+            <input
+            readonly
+              matInput
+              [value]="
+                isProductCodeLoaded
+                  ? this.vendorCodes[product_index]?.mobileNumber
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor GST Registration Number</mat-label>
+            <input
+            readonly
+              matInput
+              [value]="
+                isProductCodeLoaded
+                  ? this.vendorCodes[product_index]?.stRegistrationNumber
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor NTN</mat-label>
+            <input
+            readonly
+              matInput
+              [value]="
+                isProductCodeLoaded ? this.vendorCodes[product_index]?.ntn : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Vendor Balance</mat-label>
+            <input
+            readonly
+              matInput
+              [value]="
+                isProductCodeLoaded
+                  ? this.vendorCodes[product_index]?.vendorBalance
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Vendor Address</mat-label>
+          <textarea
+          readonly
+            matInput
+            rows="8"
+            [value]="
+              isProductCodeLoaded
+                ? this.vendorCodes[product_index]?.vendorAddress
+                : ''
+            "
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="row mr-1" style="float:right">
+        <button mat-button routerLink="/employee-home/purchase-sales-tax">Back</button>
+        <button
+          [disabled]="addPurchaseSalesForm.invalid || !this.isPurchaseLoaded || !isProductCodeLoaded || !isAccountLoaded "
+          mat-button
+          class="blueButton ml-2"
+          (click)="addPurchasesSales(date.value,vendorDate)"
+        >
+          Add
+        </button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>

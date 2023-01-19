@@ -1,0 +1,350 @@
+<div class="container-fluid">
+  <div class="row mt-5 ml-2">
+    <h1 class="align-items-center ml-3 headingMain">Add Cash Payment To Vendor</h1>
+  </div>
+
+  <div class="row ml-2">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" selected routerLink="/employee-home/sales">Sales</mat-chip> /
+        <mat-chip style="background-color: rgb(74, 2, 74);color:white" routerLink="/employee-home/cash-payment">Cash Payment</mat-chip> /
+        <mat-chip color="primary" selected>Add Cash Payment To Vendor</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="addCashPaymentForm">
+      <div class="row  mt-5">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial Number</mat-label>
+            <input matInput #serialNumber formControlName="serialNumber" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['serialNumber'].invalid &&
+              (addCashPaymentForm.controls['serialNumber'].dirty ||
+                addCashPaymentForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['serialNumber']?.errors?.required
+              "
+              >Serial Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['serialNumber']?.errors?.minlength ||
+                addCashPaymentForm.controls['serialNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker1" #date required formControlName="invoiceDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cash Account</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.allAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadAccount(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account No</mat-label>
+            <input
+              readonly
+              matInput
+              [value]="
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.accountInfo
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row ">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Paid To</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.customerAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadPaidTo(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Name</mat-label>
+            <input
+              matInput
+              [value]="
+                isPaidToLoaded ? this.customerAccounts[paidTo_index]?.accountInfo : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div class="row ">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Invoice No</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="
+                  let purchaseSalesData of this.allPurchaseSales;
+                  let i = index
+                "
+                [value]="purchaseSalesData.serialNumber"
+                (click)="loadPurchaseSales(i)"
+                >{{ purchaseSalesData.serialNumber }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Invoice Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker4"
+              [value]="
+                isPurchaseSalesLoaded
+                  ? this.allPurchaseSales[purchaseSales_index]?.invoiceDate
+                  : ''
+              "
+              readonly
+              #invoiceDate
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker4"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker4>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>W.H.T Rate %</mat-label>
+            <input matInput formControlName="whtRate" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['whtRate'].invalid &&
+              (addCashPaymentForm.controls['whtRate'].dirty ||
+                addCashPaymentForm.controls['whtRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['whtRate']?.errors?.required
+              "
+              >WHT Rate is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['whtRate']?.errors?.min ||
+                addCashPaymentForm.controls['whtRate']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>G.S.T Rate %</mat-label>
+            <input matInput formControlName="gstRate" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['gstRate'].invalid &&
+              (addCashPaymentForm.controls['gstRate'].dirty ||
+                addCashPaymentForm.controls['gstRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['gstRate']?.errors?.required
+              "
+              >Gst Rate is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['gstRate']?.errors?.min ||
+                addCashPaymentForm.controls['gstRate']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Total Amount Debited</mat-label>
+            <input matInput formControlName="cashPaid" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['cashPaid'].invalid &&
+              (addCashPaymentForm.controls['cashPaid'].dirty ||
+                addCashPaymentForm.controls['cashPaid'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['cashPaid']?.errors?.required
+              "
+              >Total Amount Debited is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['cashPaid']?.errors?.min ||
+                addCashPaymentForm.controls['cashPaid']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row ">
+
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Advanced Adjusted</mat-label>
+            <input matInput formControlName="advanceAdjusted" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['advanceAdjusted'].invalid &&
+              (addCashPaymentForm.controls['advanceAdjusted'].dirty ||
+                addCashPaymentForm.controls['advanceAdjusted'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['advanceAdjusted']?.errors?.required
+              "
+              >Advance adjusted is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['advanceAdjusted']?.errors?.min ||
+                addCashPaymentForm.controls['advanceAdjusted']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Discount Received</mat-label>
+            <input matInput formControlName="disc" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['disc'].invalid &&
+              (addCashPaymentForm.controls['disc'].dirty ||
+                addCashPaymentForm.controls['disc'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['disc']?.errors?.required
+              "
+              >Discount is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['disc']?.errors?.min ||
+                addCashPaymentForm.controls['disc']?.errors?.max
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Payment Description</mat-label>
+            <input matInput formControlName="paymentDescription" required/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              addCashPaymentForm.controls['paymentDescription'].invalid &&
+              (addCashPaymentForm.controls['paymentDescription'].dirty ||
+                addCashPaymentForm.controls['paymentDescription'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['paymentDescription']?.errors?.required
+              "
+              >Payment Description is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addCashPaymentForm.controls['paymentDescription']?.errors?.minlength ||
+                addCashPaymentForm.controls['paymentDescription']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row mr-1" style="float:right">
+        <button mat-button routerLink="/employee-home/cash-payment">Back</button>
+        <button mat-button class="blueButton ml-2" (click)="addCashPayment(invoiceDate.value)"
+        [disabled]="addCashPaymentForm.invalid || !isAccountCodeLoaded || !isPurchaseSalesLoaded || !isPaidToLoaded"
+        >Add</button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+</div>

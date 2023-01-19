@@ -1,0 +1,235 @@
+<div class="container-fluid">
+  <div class="row mt-5 ml-2">
+    <h1 class="align-items-center ml-3 heading headingMain">Add Bank Petty Payment</h1>
+  </div>
+
+  <div class="row ml-2">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" selected routerLink="/employee-home/purchases">Purchase</mat-chip> /
+        <mat-chip style="background-color: red;color:white" selected routerLink="/employee-home/bank-payment">Bank Payment</mat-chip> /
+        <mat-chip color="primary" selected>Add Bank Petty Payment</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="addBankPettyForm">
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial Number</mat-label>
+            <input matInput #serialNumber formControlName="serialNumber" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              addBankPettyForm.controls['serialNumber'].invalid &&
+              (addBankPettyForm.controls['serialNumber'].dirty ||
+                addBankPettyForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addBankPettyForm.controls['serialNumber']?.errors?.required
+              "
+              >Serial Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addBankPettyForm.controls['serialNumber']?.errors?.minlength ||
+                addBankPettyForm.controls['serialNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker1" #date required formControlName="invoiceDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Bank Account</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.allAccounts; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadAccount(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account No</mat-label>
+            <input readonly
+              matInput
+              [value]="
+                isAccountCodeLoaded
+                  ? this.allAccounts[account_index]?.accountInfo
+                  : ''
+              "
+            />
+
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Cheque No</mat-label>
+            <input type="text" matInput formControlName="chequeNo" required />
+          </mat-form-field>
+          <div
+          *ngIf="
+            addBankPettyForm.controls['chequeNo'].invalid &&
+            (addBankPettyForm.controls['chequeNo'].dirty ||
+              addBankPettyForm.controls['chequeNo'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="addBankPettyForm.controls['chequeNo']?.errors?.required"
+            >Cheque No is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addBankPettyForm.controls['chequeNo']?.errors?.minlength ||
+              addBankPettyForm.controls['chequeNo']?.errors?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Cheque Date</mat-label>
+            <input matInput [matDatepicker]="datepicker3" required  #chequeDate formControlName="chequeDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker3>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Paid To</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let accountData of this.accountOfOtherType; let i = index"
+                [value]="accountData.accountCode"
+                (click)="loadPaidTo(i)"
+                >{{ accountData.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Account Name</mat-label>
+            <input
+            readonly
+              matInput
+              [value]="
+                isPaidToLoaded ? this.accountOfOtherType[paidTo_index]?.accountInfo : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Total Amount Debited</mat-label>
+            <input matInput #balance required formControlName="totalAmountDebited" />
+          </mat-form-field>
+          <div
+          *ngIf="
+            addBankPettyForm.controls['totalAmountDebited'].invalid &&
+            (addBankPettyForm.controls['totalAmountDebited'].dirty ||
+              addBankPettyForm.controls['totalAmountDebited'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="addBankPettyForm.controls['totalAmountDebited']?.errors?.required"
+            >Total Amount is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addBankPettyForm.controls['totalAmountDebited']?.errors?.min ||
+              addBankPettyForm.controls['totalAmountDebited']?.errors?.max
+            "
+            >Must be between 1 - 1000000 Characters</mat-error
+          >
+        </div>
+        </div>
+      </div>
+      <div class="row p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Description</mat-label>
+          <textarea matInput rows="8" required formControlName="description"></textarea>
+        </mat-form-field>
+        <div
+        *ngIf="
+          addBankPettyForm.controls['description'].invalid &&
+          (addBankPettyForm.controls['description'].dirty ||
+            addBankPettyForm.controls['description'].touched)
+        "
+      >
+        <mat-error
+          *ngIf="addBankPettyForm.controls['description']?.errors?.required"
+          >Description is required</mat-error
+        >
+        <mat-error
+          *ngIf="
+            addBankPettyForm.controls['description']?.errors?.minlength ||
+            addBankPettyForm.controls['description']?.errors?.maxlength
+          "
+          >Must be between 2 - 50 Characters</mat-error
+        >
+      </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-md-10"></div>
+      <div class="col-md-2">
+        <button mat-button routerLink="/employee-home/bank-petty">Back</button>
+        <button
+          mat-button
+          class="blueButton ml-2"
+          [disabled]="addBankPettyForm.invalid || !isAccountCodeLoaded || !isPaidToLoaded"
+          (click)="addBankPetty(chequeDate.value , date.value)"
+        >
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>

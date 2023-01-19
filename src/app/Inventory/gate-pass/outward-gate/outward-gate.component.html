@@ -1,0 +1,419 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading">Outward Gate Pass</h1>
+  </div>
+  <div class="row p-3">
+    <div class="col-md-10">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/inventory-dashboard/gate-pass">Gate Pass</mat-chip> /
+        <mat-chip style="background-color: red;" selected>Outward Gate Pass</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid p-3">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-card>
+          <div class="row mt-5">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Purchase Order No</mat-label>
+                <mat-select disableRipple>
+                  <mat-option *ngFor="let purchaseData of this.productSales; let i = index"
+                      [value]="purchaseData.serialNumber" (click)="loadSales(i)">{{purchaseData.serialNumber}}
+                    </mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="example-form-field w-100">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="datepicker1" readonly [value]="
+                isSaleLoaded
+                  ? this.productSales[sales_index]
+                      ?.orderDate
+                  : ''
+              ">
+                <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker1>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Delivery Challan No.</mat-label>
+                <input matInput [value]="
+                isDeliveryCodeLoaded
+                  ? this.deliverChallan
+                      ?.serialNumber
+                  : ''
+              ">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="example-form-field w-100">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="datepicker3" [value]="
+                isSaleLoaded
+                  ? this.deliverChallan
+                      ?.challanDate
+                  : ''
+              ">
+                <mat-datepicker-toggle matSuffix [for]="datepicker3"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker3>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+
+      </div>
+      <div class="col-md-6">
+        <mat-card>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Code</mat-label>
+                <input matInput  readonly
+                matInput
+                [value]="
+                  isProductCodeLoaded ? this.vendorByIdData[0].customerCode : ''
+                ">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Name</mat-label>
+                <input matInput readonly
+                matInput
+                [value]="
+                  isProductCodeLoaded ? this.vendorByIdData[0].customerName : ''
+                ">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Telephone</mat-label>
+                <input readonly
+                matInput
+                [value]="
+                  isProductCodeLoaded ? this.vendorByIdData[0].mobileNumber : ''
+                ">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row p-3">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Address</mat-label>
+              <textarea matInput readonly
+              [value]="
+                    isProductCodeLoaded
+                      ? this.vendorByIdData[0].customerAddress
+                      : ''
+                  "></textarea>
+            </mat-form-field>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid p-3">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="example-form-field w-100">
+          <mat-label>Time Of Supply</mat-label>
+          <input matInput [matDatepicker]="datepicker5" readonly [value]="
+          isSaleLoaded
+            ? this.deliverChallan
+                ?.timeOfSupply
+            : ''
+        ">
+          <mat-datepicker-toggle matSuffix [for]="datepicker5"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker5>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancel</button>
+              <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Driver Name</mat-label>
+          <input matInput [value]="
+          isSaleLoaded
+            ? this.deliverChallan
+                ?.driverName
+            : ''
+        ">
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Vehicle Description</mat-label>
+          <input matInput [value]="
+          isSaleLoaded
+            ? this.deliverChallan
+                ?.vehicleDescription
+            : ''
+        ">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <button
+  [disabled]="!this.disablePrint"
+  mat-stroked-button
+  class="mb-2"
+  style="float: right"
+  (click)="printReceipt('MyDIv')"
+>
+  Print
+</button>
+  <table mat-table [dataSource]="dataSource" matSort>
+    <!-- fullName Column -->
+    <ng-container matColumnDef="itemCode">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        class="blueButton"
+      >
+        Item Code
+      </th>
+      <td mat-cell *matCellDef="let row">{{ row.productItemCode }}</td>
+    </ng-container>
+
+    <!-- position Column -->
+    <ng-container matColumnDef="quantity">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        class="blueButton"
+      >
+        Quantity
+      </th>
+      <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
+    </ng-container>
+
+    <!-- department Column -->
+    <ng-container matColumnDef="unit">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        class="blueButton"
+      >
+        Unit
+      </th>
+      <td mat-cell *matCellDef="let row">{{ row.unit }}</td>
+    </ng-container>
+
+    <!-- salary Column -->
+    <ng-container matColumnDef="rate">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-heade
+        class="blueButton"
+        r
+      >
+        Rate
+      </th>
+      <td mat-cell *matCellDef="let row">{{ row.rate }}</td>
+    </ng-container>
+
+    <!-- joiningDate Column -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <!-- <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr> -->
+  </table>
+  <mat-paginator
+  [pageSizeOptions]="[5, 10, 25, 100]"
+  aria-label="Select page of users"
+></mat-paginator>
+
+<div id="MyDIv" class="positioned">
+  <div class="container">
+    <div class="row" style="background-color: rgb(50, 120, 226)">
+      <div class="col-md-6">
+        <h1 class="mt-5" style="font-size: 30px;color:#ffff" >OUTWARD GATE PASS</h1>
+      </div>
+
+      <div class="col-md-3 mt-3">
+        <ul class="colorWhite">
+          +92-3334556767
+        </ul>
+        <ul class="colorWhite">
+          mianb@gmail.com
+        </ul>
+        <ul class="colorWhite">
+          G.S.T Regn. No: 1234-5678
+        </ul>
+      </div>
+      <div class="col-md-3 mt-2">
+        <ul class="colorWhite">
+          Mian Brothers Company (Pvt) Ltd
+        </ul>
+        <ul class="colorWhite">
+          Suit no. 10 Tower Heights
+        </ul>
+        <ul class="colorWhite">
+          Lahore,Pakistan
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="row">
+          <h3>P.O.NO.</h3>
+          &nbsp;&nbsp;&nbsp;
+          <h3>{{ isSaleLoaded
+            ? (this.productSales[sales_index]?.serialNumber)
+            : ''}}</h3>
+        </div>
+        <div class="row">
+          <h3>P.O.Date</h3>
+          &nbsp;&nbsp;&nbsp;
+          <h3>{{isSaleLoaded
+            ? (this.productSales[sales_index]?.orderDate  | date:"medium")
+            : ''}}</h3>
+        </div>
+          <div class="row">
+            <h4 style="color: grey" >From:</h4>
+          </div>
+          <div class="row">
+            <h2>{{isProductCodeLoaded ? this.vendorByIdData[0].customerName : ''}}</h2>
+          </div>
+          <div class="row">
+            <h5>{{isProductCodeLoaded ? this.vendorByIdData[0].mobileNumber : ''}}</h5>
+          </div>
+          <div class="row">
+            <h5>{{isProductCodeLoaded ? this.vendorByIdData[0].customerAddress : ''}}</h5>
+          </div>
+    </div>
+    <div class="col-md-4 offset-md-4">
+      <div class="row">
+        <h3>Terms Of Payment</h3>
+          &nbsp;&nbsp;&nbsp;
+          <h3>{{isSaleLoaded
+            ? (this.productSales[sales_index]?.paymentTerms)
+            : ''}}</h3>
+      </div>
+      <div class="row">
+        <h3>Delivery Date</h3>
+          &nbsp;&nbsp;&nbsp;
+          <h3>{{isSaleLoaded
+            ? (this.productSales[sales_index]?.deliveryDate  | date:"medium")
+            : ''}}</h3>
+      </div>
+
+    </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-md-12" id="htmlData">
+        <table mat-table [dataSource]="dataSource" matSort >
+          <!-- fullName Column -->
+          <ng-container matColumnDef="itemCode">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="blueButton"
+            >
+              Item Code
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.productItemCode }}</td>
+          </ng-container>
+
+          <!-- position Column -->
+          <ng-container matColumnDef="quantity">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="blueButton"
+            >
+              Quantity
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
+          </ng-container>
+
+          <!-- department Column -->
+          <ng-container matColumnDef="unit">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="blueButton"
+            >
+              Unit
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.unit }}</td>
+          </ng-container>
+
+          <!-- salary Column -->
+          <ng-container matColumnDef="rate">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-heade
+              class="blueButton"
+              r
+            >
+              Rate
+            </th>
+            <td mat-cell *matCellDef="let row">{{ row.rate }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <!-- <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr> -->
+        </table>
+      </div>
+    </div>
+    <!-- <div class="row mt-2">
+      <h3 class="colorBlue">Net Total:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isSaleLoaded
+        ? (this.deliverChallan?.totalAmount)
+        : ''}}</h3>
+    </div> -->
+    <div class="row mt-3">
+      <h5 style="color:rgb(10, 116, 238)">Authorized Signature</h5>
+      _______________
+      <br>
+    </div>
+    <div class="row mt-3">
+      <h5 style="color:rgb(10, 116, 238)">Receiver's Signature</h5>
+      _______________
+      <br>
+    </div>
+  </div>
+</div>
+
+
+</div>

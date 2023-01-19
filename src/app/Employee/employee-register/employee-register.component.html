@@ -1,0 +1,239 @@
+<div class="container-fluid mt-5">
+  <!-- <div class="row mt-5"  style="background-color:#dad">
+</div> -->
+  <h1 class="heading headingMain ml-3">Add Employee</h1>
+  <div class="row">
+    <div class="col-md-12 bg-white">
+      <mat-chip-list>
+        <mat-chip
+          selected
+          color="basic"
+          routerLink="/main-employee-dashboard/all-employees"
+          >Dashboard</mat-chip
+        >
+        /
+        <mat-chip selected>Register Employee</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <form [formGroup]="requiredForm">
+    <div class="row mt-5 p-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Full Name</mat-label>
+          <input matInput #fullname formControlName="name" required />
+        </mat-form-field>
+        <div
+          *ngIf="
+            requiredForm.controls['name'].invalid &&
+            (requiredForm.controls['name'].dirty ||
+              requiredForm.controls['name'].touched)
+          "
+        >
+          <mat-error *ngIf="requiredForm.controls['name']?.errors?.required">
+            Name Is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              requiredForm.controls['name']?.errors?.minlength ||
+              requiredForm.controls['name']?.errors?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Position</mat-label>
+          <input matInput #position formControlName="position" required />
+        </mat-form-field>
+        <div
+          *ngIf="
+            requiredForm.controls['position'].invalid &&
+            (requiredForm.controls['position'].dirty ||
+              requiredForm.controls['position'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="requiredForm.controls['position']?.errors?.required"
+          >
+            Position Is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              requiredForm.controls['position']?.errors?.minlength ||
+              requiredForm.controls['position']?.errors?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Deprtment</mat-label>
+          <mat-select
+            disableRipple
+            (selectionChange)="changeValue($event.value)"
+          >
+            <mat-option value="IT">IT</mat-option>
+            <mat-option value="Sales">Sales</mat-option>
+            <mat-option value="Management">Managment</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row p-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Salary</mat-label>
+          <input
+            matInput
+            #salary
+            formControlName="salary"
+            required
+            type="number"
+          />
+        </mat-form-field>
+        <div
+          *ngIf="
+            requiredForm.controls['salary'].invalid &&
+            (requiredForm.controls['salary'].dirty ||
+              requiredForm.controls['salary'].touched)
+          "
+        >
+          <mat-error *ngIf="requiredForm.controls['salary']?.errors?.required">
+            Salary Is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              requiredForm.controls['salary']?.errors?.min ||
+              requiredForm.controls['salary']?.errors?.max
+            "
+            >Must be between 1 - 10000000 Characters</mat-error
+          >
+        </div>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="example-form-field w-100">
+          <mat-label>Date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="datepicker3"
+            #date
+            rquired
+            formControlName="date"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="datepicker3"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datepicker3>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancel</button>
+              <button mat-raised-button color="primary" matDatepickerApply>
+                Apply
+              </button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>CNIC</mat-label>
+          <input matInput #cnic formControlName="cnic" required />
+        </mat-form-field>
+        <div
+          *ngIf="
+            requiredForm.controls['cnic'].invalid &&
+            (requiredForm.controls['cnic'].dirty ||
+              requiredForm.controls['cnic'].touched)
+          "
+        >
+          <mat-error *ngIf="requiredForm.controls['cnic']?.errors?.required">
+            Cnic Is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              requiredForm.controls['cnic']?.errors?.required ||
+              requiredForm.controls['cnic']?.errors?.pattern
+            "
+            >Cnic should be exactly 15 digit long. Must contains
+            hyphen</mat-error
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row p-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="example-form-field w-100">
+          <mat-label>DOB</mat-label>
+          <input
+            matInput
+            [matDatepicker]="datepicker4"
+            #dateOfBirth
+            required
+            formControlName="dateOfBirth"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="datepicker4"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datepicker4>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancel</button>
+              <button mat-raised-button color="primary" matDatepickerApply>
+                Apply
+              </button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-4">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Address</mat-label>
+          <input matInput #address formControlName="address" />
+        </mat-form-field>
+        <div
+          *ngIf="
+            requiredForm.controls['address'].invalid &&
+            (requiredForm.controls['address'].dirty ||
+              requiredForm.controls['address'].touched)
+          "
+        >
+          <mat-error *ngIf="requiredForm.controls['address']?.errors?.required">
+            address Is required
+          </mat-error>
+          <mat-error
+            *ngIf="
+              requiredForm.controls['address']?.errors?.minlength ||
+              requiredForm.controls['address']?.errors?.maxlength
+            "
+            >Must be between 2 - 50 Characters</mat-error
+          >
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row p-3" style="float: right">
+    <button mat-button routerLink="/main-employee-dashboard/all-employees">Back</button>
+    <button
+      mat-button
+      class="blueButton ml-5"
+      [disabled]="requiredForm.invalid"
+      (click)="
+        addEmployee(
+          fullname.value,
+          position.value,
+          salary.value,
+          date.value,
+          cnic.value,
+          dateOfBirth.value,
+          address.value
+        )
+      "
+    >
+      Add
+    </button>
+  </div>
+</div>

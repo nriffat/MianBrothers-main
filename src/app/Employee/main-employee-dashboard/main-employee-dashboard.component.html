@@ -1,0 +1,60 @@
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened="true">
+    <mat-list role="list">
+      <div class="ml-2">
+        <img src="..\assets\Group 337453 1.png" routerLink="/system-choice"  alt="" />
+      </div>
+      <!-- <h1 style="text-align: center" class="heading">Mian Brothers</h1> -->
+      <mat-selection-list #shoes [multiple]="false">
+        <mat-list role="list" style="cursor: pointer">
+          <mat-list-item
+            role="listitem"
+            routerLink="/main-employee-dashboard/all-employees"
+          >
+            <mat-icon>
+              <span class="material-symbols-outlined">
+                dashboard_customize
+              </span>
+            </mat-icon>
+            Dashboard</mat-list-item
+          >
+          <mat-list-item
+            role="listitem"
+            routerLink="/main-employee-dashboard/employee-register"
+          >
+            <mat-icon>
+              <span class="material-symbols-outlined"> pie_chart </span>
+            </mat-icon>
+           Register Employee</mat-list-item
+          >
+
+          <div style="margin-top: 240%">
+            <mat-list-item
+              role="listitem"
+              routerLink="/"
+            >
+              <mat-icon>
+                <span class="material-symbols-outlined"> logout </span>
+              </mat-icon>
+              Logout</mat-list-item
+            >
+          </div>
+        </mat-list>
+
+        <!-- <mat-list-option
+          *ngFor="let items of userItems"
+          [value]="items.routeName"
+          (click)="loadUserInformationComponent(items.routeName)"
+        >
+          {{ items.displayName }}
+        </mat-list-option> -->
+      </mat-selection-list>
+    </mat-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <router-outlet style="width: 100%"></router-outlet>
+
+    <!-- <app-employee-dashboard></app-employee-dashboard> -->
+  </mat-drawer-content>
+</mat-drawer-container>

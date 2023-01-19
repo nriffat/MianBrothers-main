@@ -1,0 +1,119 @@
+<h2 mat-dialog-title>Edit Employee</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit employee?</p>
+<div class="container-fluid">
+  <form [formGroup]="editTax">
+  <div class="row">
+    <div class="col-md-4">
+      <mat-form-field appearance="outline" class="example-form-field w-100">
+        <mat-label>Sale Date</mat-label>
+        <input
+          matInput
+          required
+          [matDatepicker]="datepicker3"
+          formControlName="saleDate"
+          required
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepicker3"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepicker3>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Discount</mat-label>
+        <input matInput formControlName="discount" required type="number">
+      </mat-form-field>
+      <div
+          *ngIf="
+            editTax.controls['discount'].invalid &&
+            (editTax.controls['discount'].dirty ||
+              editTax.controls['discount'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              editTax.controls['discount']?.errors?.required
+            "
+            >Discount is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              editTax.controls['discount']?.errors
+                ?.min ||
+              editTax.controls['discount']?.errors?.max
+            "
+            >Must be between 1 - 1000000 Characters</mat-error
+          >
+        </div>
+    </div>
+    <div class="col-md-4">
+      <mat-form-field appearance="outline">
+        <mat-label>Payment Terms</mat-label>
+        <input matInput formControlName="paymentTerms">
+      </mat-form-field>
+      <div
+          *ngIf="
+            editTax.controls['paymentTerms'].invalid &&
+            (editTax.controls['paymentTerms'].dirty ||
+              editTax.controls['paymentTerms'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              editTax.controls['paymentTerms']?.errors?.required
+            "
+            >Terms Of Payment is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              editTax.controls['paymentTerms']?.errors
+                ?.minlength ||
+              editTax.controls['paymentTerms']?.errors?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div>
+    </div>
+    <div class="col-md-4">
+        <mat-form-field appearance="outline" class="example-form-field w-100">
+          <mat-label>Invoice Date</mat-label>
+          <input
+            matInput
+            required
+            [matDatepicker]="datepicker2"
+            formControlName="invoiceDate"
+            required
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="datepicker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datepicker2>
+            <mat-datepicker-actions>
+              <button mat-button matDatepickerCancel>Cancel</button>
+              <button mat-raised-button color="primary" matDatepickerApply>
+                Apply
+              </button>
+            </mat-datepicker-actions>
+          </mat-datepicker>
+        </mat-form-field>
+    </div>
+  </div>
+
+  </form>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onEditTax()" [disabled]="editTax.inavlid">Edit</button>
+</mat-dialog-actions>

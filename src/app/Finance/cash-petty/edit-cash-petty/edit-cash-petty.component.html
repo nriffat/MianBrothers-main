@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Edit Cash Petty</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit cash petty?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editCashPettyForm">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Payment Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker4"
+              required
+              #chequeDate
+              formControlName="paymentDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker4"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker4>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Total Amount</mat-label>
+            <input matInput formControlName="totalAmountDebited" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editCashPettyForm.controls['totalAmountDebited'].invalid &&
+              (editCashPettyForm.controls['totalAmountDebited'].dirty ||
+                editCashPettyForm.controls['totalAmountDebited'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                editCashPettyForm.controls['totalAmountDebited']?.errors
+                  ?.required
+              "
+              >Total Amount Debited is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCashPettyForm.controls['totalAmountDebited']?.errors?.min ||
+                editCashPettyForm.controls['totalAmountDebited']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onEditCashPetty()" [disabled]="editCashPettyForm.invalid">Edit</button>
+</mat-dialog-actions>

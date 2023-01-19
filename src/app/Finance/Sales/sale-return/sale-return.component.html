@@ -1,0 +1,479 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 headingMain">Sale Returns</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/sales">Sales</mat-chip> /
+        <mat-chip style="background-color:teal;color:#ffff" selected>Sale Returns</mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="col-md-5">
+      <button mat-raised-button class="tealButton" routerLink="/employee-home/add-sale-returns">Add Sale Returns</button>
+      <button mat-raised-button class="ml-2 greenButton" routerLink="/employee-home/add-customer">Add New Customer</button>
+      <button mat-raised-button class="ml-2 blueButton" routerLink="/employee-home/add-sales-order">Add Sales Order</button>
+    </div>
+
+    <div class="container-fluid p-3 mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-card>
+            <div class="row mt-5">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Serial Number</mat-label>
+                  <mat-select disableRipple>
+                    <mat-option
+                      *ngFor="
+                        let purchaseData of this.salesReturnData;
+                        let i = index
+                      "
+                      [value]="purchaseData.serialNumber"
+                      (click)="loadSales(i)"
+                      >{{ purchaseData.serialNumber }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="example-form-field w-100">
+                  <mat-label>Date</mat-label>
+                  <input matInput [matDatepicker]="datepicker1" [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.returnDate
+                    : ''
+                ">
+                  <mat-datepicker-toggle matSuffix [for]="datepicker1"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker1>
+                    <mat-datepicker-actions>
+                      <button mat-button matDatepickerCancel>Cancel</button>
+                      <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                  </mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Purchase Number</mat-label>
+                  <input matInput [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.orderSerialNumber
+                    : ''
+                ">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="example-form-field w-100">
+                  <mat-label>Date</mat-label>
+                  <input matInput [matDatepicker]="datepicker2"
+                  [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.orderDate
+                    : ''
+                ">
+                  <mat-datepicker-toggle matSuffix [for]="datepicker2"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker2>
+                    <mat-datepicker-actions>
+                      <button mat-button matDatepickerCancel>Cancel</button>
+                      <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                  </mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Sale Invoice Number</mat-label>
+                  <input matInput [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.invoice
+                    : ''
+                ">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="example-form-field w-100">
+                  <mat-label>Date</mat-label>
+                  <input matInput [matDatepicker]="datepicker3" [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.invoiceDate
+                    : ''
+                ">
+                  <mat-datepicker-toggle matSuffix [for]="datepicker3"></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker3>
+                    <mat-datepicker-actions>
+                      <button mat-button matDatepickerCancel>Cancel</button>
+                      <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                  </mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Nature of debit note</mat-label>
+                  <input matInput [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.debitNotes
+                    : ''
+                ">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Terms Of Payment</mat-label>
+                  <input matInput [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.paymentTerms
+                    : ''
+                ">
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Expense Account</mat-label>
+                  <input matInput [value]="
+                  isSaleLoaded
+                    ? this.salesReturnData[sales_index]
+                        ?.accountType
+                    : ''
+                ">
+                </mat-form-field>
+              </div>
+
+            </div>
+          </mat-card>
+
+        </div>
+        <div class="col-md-6">
+          <mat-card>
+            <div class="row p-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Code</mat-label>
+                <input
+                readonly
+                matInput
+                [value]="isSaleCodeLoaded ? this.salesDataById[0].customerCode: ''"
+              />
+              </mat-form-field>
+              <mat-form-field
+              appearance="outline"
+              class="ml-2"
+              style="width: 63.5%"
+            >
+              <mat-label>Balance</mat-label>
+              <input
+              readonly
+                matInput
+                [value]="isSaleCodeLoaded ? this.salesDataById[0].balance : ''"
+              />
+            </mat-form-field>
+            </div>
+
+            <div class="row p-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="isSaleCodeLoaded ? this.salesDataById[0].customerName: ''"
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                class="ml-2"
+                style="width: 63.5%"
+              >
+                <mat-label>Telephone</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="isSaleCodeLoaded ? this.salesDataById[0].mobileNumber : ''"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="row p-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Address</mat-label>
+                <textarea
+                readonly
+                  matInput
+                  rows="8"
+                  [value]="isSaleCodeLoaded ? this.salesDataById[0].customerAddress : ''"
+                ></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="row p-3">
+              <mat-form-field appearance="outline">
+                <mat-label>GST Registration Number</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="isSaleCodeLoaded ? this.salesDataById[0].stRegistrationNumber : ''"
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                class="ml-2"
+                style="width: 69.5%"
+              >
+                <mat-label>NTN</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="isSaleCodeLoaded ? this.salesDataById[0].ntn : ''"
+                />
+              </mat-form-field>
+            </div>
+          </mat-card>
+
+        </div>
+        <div class="mat-elevation-z8 container-fluid p-2 mt-5">
+         <button
+          [disabled]="!this.disablePrint"
+          mat-stroked-button
+          class="mb-2"
+          style="float: right"
+          (click)="printReceipt('MyDIv')"
+        >
+          Print
+        </button>
+        <mat-form-field appearance="standard" class="w-100">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+        </mat-form-field>
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- fullName Column -->
+            <ng-container matColumnDef="productItemCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Item Code </th>
+              <td mat-cell *matCellDef="let row"> {{row.productItemCode}} </td>
+            </ng-container>
+
+            <!-- position Column -->
+            <ng-container matColumnDef="debitNotes">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Product Name </th>
+              <td mat-cell *matCellDef="let row"> {{row.productName}} </td>
+            </ng-container>
+
+            <!-- department Column -->
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Unit </th>
+              <td mat-cell *matCellDef="let row"> {{row.unit}} </td>
+            </ng-container>
+
+            <!-- salary Column -->
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Quantity </th>
+              <td mat-cell *matCellDef="let row"> {{row.quantity}} </td>
+            </ng-container>
+
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Delete</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-icon class="material-symbols-outlined" (click)="onDelete(i)">
+                  delete
+                </mat-icon>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton">Edit</th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-icon class="material-symbols-outlined" (click)="editSaleReturn(i)">
+                  edit
+                </mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <!-- <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr> -->
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- class="positioned"  -->
+  <div id="MyDIv"  class="positioned">
+    <div class="container">
+      <div class="row" style="background-color: rgb(50, 120, 226)">
+        <div class="col-md-6">
+          <h1 class="mt-5" style="font-size: 30px;color:#ffff" >SALES INVOICE</h1>
+        </div>
+
+        <div class="col-md-3 mt-3">
+          <ul class="colorWhite">
+            +92-3334556767
+          </ul>
+          <ul class="colorWhite">
+            mianb@gmail.com
+          </ul>
+          <ul class="colorWhite">
+            G.S.T Regn. No: 1234-5678
+          </ul>
+        </div>
+        <div class="col-md-3 mt-2">
+          <ul class="colorWhite">
+            Mian Brothers Company (Pvt) Ltd
+          </ul>
+          <ul class="colorWhite">
+            Suit no. 10 Tower Heights
+          </ul>
+          <ul class="colorWhite">
+            Lahore,Pakistan
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4"><div class="p-2">
+          <div class="row">
+            <h3>Invoice NO.</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>{{ isSaleLoaded
+              ? (this.salesReturnData[sales_index]?.invoice)
+              : ''}}</h3>
+          </div>
+          <div class="row">
+            <h3>Invoice Date</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>{{isSaleLoaded
+              ? (this.salesReturnData[sales_index]?.invoiceDate  | date:"medium")
+              : ''}}</h3>
+          </div>
+          <div class="row">
+            <h4 style="color: grey" >To:</h4>
+
+          </div>
+
+            <div class="row">
+              <h2>{{isSaleCodeLoaded ? this.salesDataById[0]?.customerName : ''}}</h2>
+            </div>
+            <div class="row">
+              <h5>{{isSaleCodeLoaded ? this.salesDataById[0]?.mobileNumber : ''}}</h5>
+            </div>
+            <div class="row">
+              <h5>{{isSaleCodeLoaded ? this.salesDataById[0]?.customerAddress : ''}}</h5>
+            </div>
+          </div></div>
+          <div class="col-md-4 offset-md-4 mt-3">
+            <div class="row">
+              <h4>Terms Of Payment:</h4>&nbsp;&nbsp;<h4>{{isSaleLoaded
+                ? (this.salesReturnData[sales_index]?.paymentTerms  )
+                : ''}}</h4>
+            </div>
+            <div class="row">
+              <h4>Sale Invoice No:</h4>&nbsp;&nbsp;<h4>{{isSaleLoaded
+                ? (this.salesReturnData[sales_index]?.saleId  )
+                : ''}}</h4>
+            </div>
+            <div class="row">
+              <h4>Sale Invoice Date:</h4>&nbsp;&nbsp;<h4>{{isSaleLoaded
+                ? (this.salesReturnData[sales_index]?.returnDate  | date:"medium")
+                : ''}}</h4>
+            </div>
+
+
+          </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-12" id="htmlData">
+          <table mat-table [dataSource]="dataSource" matSort>
+            <!-- fullName Column -->
+            <ng-container matColumnDef="productItemCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Item Code </th>
+              <td mat-cell *matCellDef="let row"> {{row.productItemCode}} </td>
+            </ng-container>
+
+            <!-- position Column -->
+            <ng-container matColumnDef="debitNotes">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Product Name </th>
+              <td mat-cell *matCellDef="let row"> {{row.productName}} </td>
+            </ng-container>
+
+            <!-- department Column -->
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Unit </th>
+              <td mat-cell *matCellDef="let row"> {{row.unit}} </td>
+            </ng-container>
+
+            <!-- salary Column -->
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"> Quantity </th>
+              <td mat-cell *matCellDef="let row"> {{row.quantity}} </td>
+            </ng-container>
+
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"></th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-icon class="material-symbols-outlined">
+
+                </mat-icon>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="blueButton"></th>
+              <td mat-cell *matCellDef="let row; let i = index">
+                <mat-icon class="material-symbols-outlined" >
+
+                </mat-icon>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <!-- <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr> -->
+          </table>
+        </div>
+      </div>
+      <!-- <div class="row mt-2">
+        <h3 class="colorBlue">Net Total:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isSaleLoaded
+          ? (this.salesReturnData[sales_index]?.totalAmount)
+          : ''}}</h3>
+      </div> -->
+      <div class="row mt-3">
+        <h5 style="color:rgb(10, 116, 238)">Authorized Signature</h5>
+        _______________
+        <br>
+      </div>
+    </div>
+  </div>
+
+</div>

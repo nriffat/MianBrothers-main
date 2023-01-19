@@ -1,0 +1,191 @@
+<h2 mat-dialog-title>Edit Purchase Order</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit purchase order?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editPurchaseOrder">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Purchase Date</mat-label>
+            <input matInput formControlName="purchaseDate" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editPurchaseOrder.controls['purchaseDate'].invalid &&
+              (editPurchaseOrder.controls['purchaseDate'].dirty ||
+                editPurchaseOrder.controls['purchaseDate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editPurchaseOrder.controls.purchaseDate.errors?.['required']
+            "
+              >Purchase Date is Required</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Payment Terms</mat-label>
+            <input matInput formControlName="paymentTerms" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editPurchaseOrder.controls['paymentTerms'].invalid &&
+              (editPurchaseOrder.controls['paymentTerms'].dirty ||
+                editPurchaseOrder.controls['paymentTerms'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editPurchaseOrder.controls.paymentTerms.errors?.['required']
+            "
+              >Terms Of Payment is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editPurchaseOrder.controls['paymentTerms']?.errors?.minlength ||
+                editPurchaseOrder.controls['paymentTerms']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Delivery Date</mat-label>
+            <input matInput formControlName="deliveryDate" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editPurchaseOrder.controls['deliveryDate'].invalid &&
+              (editPurchaseOrder.controls['deliveryDate'].dirty ||
+                editPurchaseOrder.controls['deliveryDate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editPurchaseOrder.controls.deliveryDate.errors?.['required']
+            "
+              >Delivery Date is Required</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="container-fluid">
+    <form [formGroup]="editProductHistory">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Unit</mat-label>
+            <input matInput formControlName="unit" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editProductHistory.controls['unit'].invalid &&
+              (editProductHistory.controls['unit'].dirty ||
+                editProductHistory.controls['unit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editProductHistory.controls.unit.errors?.['required']
+            "
+              >Unit is Required</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity</mat-label>
+            <input matInput formControlName="quantity" required type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editProductHistory.controls['quantity'].invalid &&
+              (editProductHistory.controls['quantity'].dirty ||
+                editProductHistory.controls['quantity'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editProductHistory.controls.quantity.errors?.['required']
+            "
+              >Quantity is Required</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Rate</mat-label>
+            <input matInput required formControlName="rate" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editProductHistory.controls['rate'].invalid &&
+              (editProductHistory.controls['rate'].dirty ||
+                editProductHistory.controls['rate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editProductHistory.controls.rate.errors?.['required']
+            "
+              >Rate is Required</mat-error
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Further Tax Rate</mat-label>
+            <input matInput required formControlName="furtherTaxRate" type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editProductHistory.controls['furtherTaxRate'].invalid &&
+              (editProductHistory.controls['furtherTaxRate'].dirty ||
+                editProductHistory.controls['furtherTaxRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editProductHistory.controls.furtherTaxRate.errors?.['required']
+            "
+              >Further Tax Rate is Required</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Sales Tax Rate</mat-label>
+            <input matInput required formControlName="salesTaxRate" type="number"/>
+          </mat-form-field>
+          <div
+            *ngIf="
+              editProductHistory.controls['salesTaxRate'].invalid &&
+              (editProductHistory.controls['salesTaxRate'].dirty ||
+                editProductHistory.controls['salesTaxRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+            this.editProductHistory.controls.salesTaxRate.errors?.['required']
+            "
+              >Sales Tax Rate is Required</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="editPurchaseOrders()" [disabled]="this.editPurchaseOrder.invalid || this.editProductHistory.invalid">
+    Edit
+  </button>
+</mat-dialog-actions>

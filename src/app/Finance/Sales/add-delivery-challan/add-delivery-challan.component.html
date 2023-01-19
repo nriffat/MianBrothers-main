@@ -1,0 +1,398 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 headingMain">Add Delivery Challan</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/sales">Sales</mat-chip> /
+        <mat-chip
+          style="background-color: rgb(82, 9, 82); color: white"
+          routerLink="/employee-home/delivery-challan"
+          >Delivery Challan</mat-chip
+        >
+        /
+        <mat-chip color="primary" selected>Add Delivery Challan</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+  <div class="container-fluid mt-5">
+    <form [formGroup]="addDeliveryChallanForm">
+        <div class="row mt-5" >
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Serial Number</mat-label>
+              <input matInput #serialNumber formControlName="serialNumber" required/>
+            </mat-form-field>
+            <div
+            *ngIf="
+              addDeliveryChallanForm.controls['serialNumber'].invalid &&
+              (addDeliveryChallanForm.controls['serialNumber'].dirty ||
+                addDeliveryChallanForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['serialNumber']?.errors?.required
+              "
+              >Serial Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['serialNumber']?.errors
+                  ?.minlength ||
+                addDeliveryChallanForm.controls['serialNumber']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field
+              appearance="outline"
+              class="example-form-field w-100"
+            >
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="datepicker1" #date formControlName="orderDate"/>
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="datepicker1"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #datepicker1>
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDatepickerApply>
+                    Apply
+                  </button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Driver Name</mat-label>
+              <input matInput formControlName="driverName" />
+              <div
+            *ngIf="
+              addDeliveryChallanForm.controls['driverName'].invalid &&
+              (addDeliveryChallanForm.controls['driverName'].dirty ||
+                addDeliveryChallanForm.controls['driverName'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['driverName']?.errors?.required
+              "
+              >Serial Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['driverName']?.errors
+                  ?.minlength ||
+                addDeliveryChallanForm.controls['driverName']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+            </mat-form-field>
+            <div
+            *ngIf="
+              addDeliveryChallanForm.controls['driverName'].invalid &&
+              (addDeliveryChallanForm.controls['driverName'].dirty ||
+                addDeliveryChallanForm.controls['driverName'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['driverName']?.errors?.required
+              "
+              >Driver Name is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['driverName']?.errors
+                  ?.minlength ||
+                addDeliveryChallanForm.controls['driverName']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer Order Reference</mat-label>
+              <mat-select disableRipple>
+                <mat-option
+                  *ngFor="let saleOrder of this.saleOrders; let i = index"
+                  [value]="saleOrder.customerOrderReference"
+                  (click)="loadSales(i)"
+                  >{{ saleOrder.customerOrderReference }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field
+              appearance="outline"
+              class="example-form-field w-100"
+            >
+              <mat-label>Delivery Date</mat-label>
+              <input
+                matInput
+                [matDatepicker]="datepicker2"
+                #deliveryDate
+                required
+                formControlName="deliveryDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="datepicker2"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #datepicker2>
+                <mat-datepicker-actions>
+                  <button mat-button matDatepickerCancel>Cancel</button>
+                  <button mat-raised-button color="primary" matDatepickerApply>
+                    Apply
+                  </button>
+                </mat-datepicker-actions>
+              </mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Terms Of Payment</mat-label>
+              <input
+                matInput
+                required
+                #vendorInvoiceNumber
+                formControlName="termsOfPayment"
+              />
+            </mat-form-field>
+            <div
+            *ngIf="
+              addDeliveryChallanForm.controls['termsOfPayment'].invalid &&
+              (addDeliveryChallanForm.controls['termsOfPayment'].dirty ||
+                addDeliveryChallanForm.controls['termsOfPayment'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['termsOfPayment']?.errors?.required
+              "
+              >Terms Of Payment is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['termsOfPayment']?.errors
+                  ?.minlength ||
+                addDeliveryChallanForm.controls['termsOfPayment']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer Code</mat-label>
+              <mat-select disableRipple>
+                <mat-option
+                  *ngFor="let customerData of this.allCustomers; let i = index"
+                  [value]="customerData.customerCode"
+                  (click)="loadCustomers(i)"
+                  >{{ customerData.customerCode }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer Name</mat-label>
+              <input
+                matInput
+                readonly
+                [value]="
+                  isCustomerCodeLoaded
+                    ? this.allCustomers[customer_index]?.customerName
+                    : ''
+                "
+              />
+
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer Telephone</mat-label>
+              <input
+              readonly
+                matInput
+                [value]="
+                isCustomerCodeLoaded
+                    ? this.allCustomers[customer_index]?.mobileNumber
+                    : ''
+                "
+
+              />
+
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer GST Registration Number</mat-label>
+              <input
+                matInput
+                readonly
+                [value]="
+                  isCustomerCodeLoaded
+                    ? this.allCustomers[customer_index]?.stRegistrationNumber
+                    : ''
+                "
+              />
+
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer NTN</mat-label>
+              <input
+                matInput
+                readonly
+                [value]="
+                  isCustomerCodeLoaded
+                    ? this.allCustomers[customer_index]?.ntn
+                    : ''
+                "
+
+              />
+
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer Balance</mat-label>
+              <input
+                matInput
+                readonly
+                [value]="
+                  isCustomerCodeLoaded
+                    ? this.allCustomers[customer_index]?.balance
+                    : ''
+                "
+              />
+
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row ">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Customer Address</mat-label>
+              <textarea
+                matInput
+                readonly
+                rows="8"
+                [value]="
+                  isCustomerCodeLoaded
+                    ? this.allCustomers[customer_index]?.customerAddress
+                    : ''
+                "
+              ></textarea>
+
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Vehicle Description</mat-label>
+              <textarea
+                matInput
+                required
+                rows="8"
+                formControlName="packingDetails"
+              ></textarea>
+            </mat-form-field>
+            <div
+            *ngIf="
+              addDeliveryChallanForm.controls['packingDetails'].invalid &&
+              (addDeliveryChallanForm.controls['packingDetails'].dirty ||
+                addDeliveryChallanForm.controls['packingDetails'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['packingDetails']?.errors?.required
+              "
+              >Vehicle Description is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['packingDetails']?.errors
+                  ?.minlength ||
+                addDeliveryChallanForm.controls['packingDetails']?.errors?.maxlength
+              "
+              >Must be between 2 - 50 Characters</mat-error
+            >
+          </div>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                rows="8"
+                formControlName="description"
+              ></textarea>
+            </mat-form-field>
+            <div
+            *ngIf="
+              addDeliveryChallanForm.controls['description'].invalid &&
+              (addDeliveryChallanForm.controls['description'].dirty ||
+                addDeliveryChallanForm.controls['description'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['description']?.errors?.required
+              "
+              >description is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                addDeliveryChallanForm.controls['description']?.errors
+                  ?.minlength ||
+                addDeliveryChallanForm.controls['description']?.errors?.maxlength
+              "
+              >Must be between 2 - 50 Characters</mat-error
+            >
+          </div>
+          </div>
+        </div>
+    </form>
+    <div class="row " style="float: right">
+      <button mat-button routerLink="/employee-home/delivery-challan">Back</button>
+      <button
+        mat-button
+        class="blueButton ml-5"
+        [disabled]="addDeliveryChallanForm.invalid || !isCustomerCodeLoaded || !isSaleCodeLoaded"
+        (click)="addDeliveryChallan(date.value, deliveryDate.value)"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+  <br>
+  <br>
+  <br>
+</div>

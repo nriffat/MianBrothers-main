@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="screen mt-5">
+    <div class="screen__content">
+      <div class="row justify-content-center mt-5 p-5">
+        <h1 class="heading">WELCOME</h1>
+      </div>
+      <div class="row justify-content-center">
+        <h3 class="sub-title">Mian Brothers Industries</h3>
+      </div>
+      <div class="row p-5">
+        <mat-card
+          class="col-md-4"
+          routerLink="/inventory-dashboard/inventory-balance"
+        >
+          <div class="ml-5">
+            <img src="..\assets\ic_baseline-inventory.png" alt="" />
+          </div>
+          <h1 class="ml-5">Inventory</h1>
+        </mat-card>
+        <mat-card
+          class="col-md-4"
+          routerLink="/employee-home/finance-dashboard"
+        >
+          <div class="ml-5">
+            <img src="..\assets\fa_bank.png" alt="" />
+          </div>
+          <h1 class="ml-5">Finance</h1>
+        </mat-card>
+        <mat-card
+          class="col-md-4"
+          routerLink="/main-employee-dashboard/all-employees"
+        >
+          <div class="ml-5">
+            <img src="..\assets\clarity_employee-group-solid.png" alt="" />
+          </div>
+          <h1 class="ml-5">Employee</h1>
+        </mat-card>
+      </div>
+
+      <div class="row m-4" style="float: right" routerLink="/system-users">
+        <img src="..\assets\bi_chat.png" alt="" />
+      </div>
+    </div>
+  </div>
+</div>

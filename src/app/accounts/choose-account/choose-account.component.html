@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Accounts</h1>
+  </div>
+
+  <div class="row ">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/chart-of-account">Chart of Account</mat-chip> /
+        <mat-chip color="primary" selected>Choose Account</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="row p-3">
+    <mat-card class="col-md-4" routerLink="/employee-home/main-account">
+      <div style="margin-left: 20%; padding: 5%;">
+        <img src="..\assets\material-symbols_person-outline.png" alt="">
+      </div>
+      <h1 style="margin-left: 20%;" >Main Account</h1>
+    </mat-card>
+    <mat-card class="col-md-4" routerLink="/employee-home/sub-account">
+      <div style="margin-left: 20%; padding: 5%;">
+        <img src="..\assets\heroicons-solid_receipt-tax (1).png" alt="">
+      </div>
+      <h1 style="margin-left: 20%;" >Sub Account</h1>
+    </mat-card>
+    <mat-card class="col-md-4" routerLink="/employee-home/list-account">
+      <div style="margin-left: 20%; padding: 5%;">
+        <img src="..\assets\heroicons-solid_receipt-tax (2).png" alt="">
+      </div>
+      <h1 style="margin-left: 20%;" >List of Account</h1>
+    </mat-card>
+  </div>
+
+</div>

@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="screen mt-5">
+    <div class="screen__content">
+      <div class="row justify-content-center mt-5">
+        <h1 class="heading">WELCOME</h1>
+      </div>
+      <div class="row justify-content-center">
+        <h3 class="sub-title">Mian Brothers Industries</h3>
+      </div>
+      <div class="row p-3">
+        <mat-card
+          class="col-md-4"
+          style="margin-left: 15%"
+          (click)="routeToRegister()"
+        >
+          <div style="margin-left: 31%">
+            <img src="..\assets\wpf_add-user (1).png" alt="" />
+          </div>
+          <h1 class="ml-5">Add System User</h1>
+        </mat-card>
+        <mat-card class="col-md-4" routerLink="/define">
+          <div style="margin-left: 28%">
+            <img src="..\assets\Group 338284.png" alt="" />
+          </div>
+          <h1 class="ml-5">Define Roles</h1>
+        </mat-card>
+      </div>
+      <div class="row">
+        <mat-card
+          class="col-md-4"
+          routerLink="/all-users"
+          style="margin-left: 33%"
+        >
+          <div style="margin-left: 31%">
+            <img src="..\assets\wpf_add-user (1).png" alt="" />
+          </div>
+          <h1 class="ml-5">View System User</h1>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

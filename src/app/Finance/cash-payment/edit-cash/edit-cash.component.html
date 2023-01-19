@@ -1,0 +1,177 @@
+<h2 mat-dialog-title>Edit Employee</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit employee?</p>
+<div class="container-fluid">
+  <form [formGroup]="editCashForm">
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>WHT Rate</mat-label>
+        <input matInput formControlName="WHTRate">
+      </mat-form-field>
+      <div
+            *ngIf="
+              editCashForm.controls['WHTRate'].invalid &&
+              (editCashForm.controls['WHTRate'].dirty ||
+                editCashForm.controls['WHTRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editCashForm.controls['WHTRate']?.errors?.required"
+              >Wht Rate is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['WHTRate']?.errors?.min ||
+                editCashForm.controls['WHTRate']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="example-form-field w-100">
+        <mat-label>Payment Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="datepicker4"
+          required
+          #chequeDate
+          formControlName="paymentDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepicker4"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepicker4>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>GST Rate</mat-label>
+        <input matInput formControlName="GSTRate">
+      </mat-form-field>
+      <div
+            *ngIf="
+              editCashForm.controls['GSTRate'].invalid &&
+              (editCashForm.controls['GSTRate'].dirty ||
+                editCashForm.controls['GSTRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editCashForm.controls['GSTRate']?.errors?.required"
+              >Gst Rate is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['GSTRate']?.errors?.min ||
+                editCashForm.controls['GSTRate']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+    </div>
+
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Total Amount Debited</mat-label>
+        <input matInput formControlName="totalAmountDebited">
+      </mat-form-field>
+      <div
+            *ngIf="
+              editCashForm.controls['totalAmountDebited'].invalid &&
+              (editCashForm.controls['totalAmountDebited'].dirty ||
+                editCashForm.controls['totalAmountDebited'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['totalAmountDebited']?.errors?.required
+              "
+              >Total Amount Debited is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['totalAmountDebited']?.errors?.min ||
+                editCashForm.controls['totalAmountDebited']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Advanced Adjustment</mat-label>
+        <input matInput formControlName="advancedAdjustment">
+      </mat-form-field>
+      <div
+            *ngIf="
+              editCashForm.controls['advancedAdjustment'].invalid &&
+              (editCashForm.controls['advancedAdjustment'].dirty ||
+                editCashForm.controls['advancedAdjustment'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['advancedAdjustment']?.errors?.required
+              "
+              >Advance Ajusted is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['advancedAdjustment']?.errors?.min ||
+                editCashForm.controls['advancedAdjustment']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Discount Received</mat-label>
+        <input matInput formControlName="discountReceived">
+      </mat-form-field>
+      <div
+            *ngIf="
+              editCashForm.controls['discountReceived'].invalid &&
+              (editCashForm.controls['discountReceived'].dirty ||
+                editCashForm.controls['discountReceived'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['discountReceived']?.errors?.required
+              "
+              >Discount Received is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCashForm.controls['discountReceived']?.errors?.min ||
+                editCashForm.controls['discountReceived']?.errors?.max
+              "
+              >Must be between 1 - 10000000 Characters</mat-error
+            >
+          </div>
+    </div>
+  </div>
+
+  </form>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="editCash()" [disabled]="editCashForm.invalid">Edit</button>
+</mat-dialog-actions>

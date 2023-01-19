@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Add Sub Account</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/chart-of-account"
+          >Chart of Account</mat-chip
+        >
+        /
+        <mat-chip color="warn" selected>Add Sub Account</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="subAccountForm">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Main Account Type</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let mainAccountData of this.mainAccounts; let i = index"
+                (click)="loadMainAccount(i)"
+                [value]="mainAccountData.accountType"
+                >{{ mainAccountData.accountType }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sub Account Code</mat-label>
+            <input matInput #subAccountCode formControlName="subAccountCode" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              subAccountForm.controls['subAccountCode'].invalid &&
+              (subAccountForm.controls['subAccountCode'].dirty ||
+                subAccountForm.controls['subAccountCode'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                subAccountForm.controls['subAccountCode']?.errors?.required
+              "
+              >Account Code is required</mat-error
+            >
+
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sub Account Type</mat-label>
+            <input matInput #subAccountType formControlName="subAccountType" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              subAccountForm.controls['subAccountType'].invalid &&
+              (subAccountForm.controls['subAccountType'].dirty ||
+                subAccountForm.controls['subAccountType'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                subAccountForm.controls['subAccountType']?.errors?.required
+              "
+              >Account Type is required</mat-error
+            >
+
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row mr-1" style="float: right">
+      <button mat-button routerLink="/employee-home/choose-account">Back</button>
+      <button
+        mat-button
+        class="blueButton ml-2"
+        [disabled]="!isMainAccountLoaded || subAccountForm.invalid"
+        (click)="addNewSubAccount(subAccountCode.value, subAccountType.value)"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,712 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">Purchase Order</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-7">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/purchases">Purchase</mat-chip> /
+        <mat-chip color="primary" selected routerLink="/employee-home/purchase-order">Purchase Order</mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="col-md-5">
+      <button mat-raised-button class="greenButton" routerLink="/employee-home/add-new-item">
+        Add New Item
+      </button>
+      <button
+        mat-raised-button
+        class="ml-2 greenButton"
+        routerLink="/employee-home/add-purchase-order"
+      >
+        Add Purcahse Order
+      </button>
+      <button mat-raised-button class="ml-2 blueButton" routerLink="/employee-home/add-vendor">
+        Add Purchase vendor
+      </button>
+    </div>
+
+    <div class="container-fluid mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-card>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Serial Number</mat-label>
+                  <mat-select disableRipple>
+                    <mat-option
+                      *ngFor="
+                        let purchaseData of this.purchaseOrder;
+                        let i = index
+                      "
+                      [value]="purchaseData.serialNumber"
+                      (click)="loadPurchase(i)"
+                      >{{ purchaseData.serialNumber }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field
+                  appearance="outline"
+                  class="example-form-field ml-2 w-100"
+                >
+                  <mat-label>Date</mat-label>
+                  <input
+                  readonly
+                    matInput
+                    [matDatepicker]="datepicker2"
+                    [value]="
+                      isPurchaseLoaded
+                        ? this.purchaseOrder[purchase_index]?.orderDate
+                        : ''
+                    "
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="datepicker2"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #datepicker2>
+                    <mat-datepicker-actions>
+                      <button mat-button matDatepickerCancel>Cancel</button>
+                      <button
+                        mat-raised-button
+                        color="primary"
+                        matDatepickerApply
+                      >
+                        Apply
+                      </button>
+                    </mat-datepicker-actions>
+                  </mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row p-3">
+              <mat-form-field
+                appearance="outline"
+                class="example-form-field w-100"
+              >
+                <mat-label>Delivery Date</mat-label>
+                <input
+                readonly
+                  matInput
+                  [matDatepicker]="datepicker3"
+                  [value]="
+                    isPurchaseLoaded
+                      ? this.purchaseOrder[purchase_index]?.deliveryDate
+                      : ''
+                  "
+                  required
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datepicker3"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datepicker3>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button color="primary" matDatepickerApply>
+                      Apply
+                    </button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="row p-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Terms Of Payment</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isPurchaseLoaded
+                      ? this.purchaseOrder[purchase_index]?.paymentTerms
+                      : ''
+                  "
+                />
+              </mat-form-field>
+            </div>
+            <div class="row p-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Tax Total Amount</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isPurchaseLoaded
+                      ? this.purchaseOrder[purchase_index]?.taxTotalAmount
+                      : ''
+                  "
+                />
+              </mat-form-field>
+            </div>
+            <div class="row p-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Non Tax Total Amount</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isPurchaseLoaded
+                      ? this.purchaseOrder[purchase_index]?.nonTaxTotalAmount
+                      : ''
+                  "
+                />
+              </mat-form-field>
+            </div>
+          </mat-card>
+        </div>
+        <div class="col-md-6">
+          <mat-card>
+            <div class="row ml-1">
+              <mat-form-field appearance="outline">
+                <mat-label>Code</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isProductCodeLoaded ? this.vendorByIdData[0].vendorCode : ''
+                  "
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                class="ml-2"
+                style="width: 61.5%"
+              >
+                <mat-label>Balance</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isProductCodeLoaded ? this.vendorByIdData[0].balance : ''
+                  "
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="row p-3">
+              <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isProductCodeLoaded ? this.vendorByIdData[0].vendorName : ''
+                  "
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                class="ml-2"
+                style="width: 63.5%"
+              >
+                <mat-label>Telephone</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isProductCodeLoaded ? this.vendorByIdData[0].mobileNumber : ''
+                  "
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="row p-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Address</mat-label>
+                <textarea
+                readonly
+                  matInput
+                  rows="8"
+                  [value]="
+                    isProductCodeLoaded
+                      ? this.vendorByIdData[0].vendorAddress
+                      : ''
+                  "
+                ></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="row p-3">
+              <mat-form-field appearance="outline">
+                <mat-label>GST Registration Number</mat-label>
+                <input
+                readonly
+                  matInput
+                  [value]="
+                    isProductCodeLoaded
+                      ? this.vendorByIdData[0].stRegistrationNumber
+                      : ''
+                  "
+                />
+              </mat-form-field>
+              <mat-form-field
+                appearance="outline"
+                class="ml-2"
+                style="width: 63.5%"
+              >
+                <mat-label>NTN</mat-label>
+                <input
+                  matInput
+                  [value]="isProductCodeLoaded ? this.vendorByIdData[0].ntn : ''"
+                />
+              </mat-form-field>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <div class="mat-elevation-z8 container-fluid p-5 mt-5">
+      <button
+        [disabled]="!this.disablePrint"
+        mat-stroked-button
+        class="mb-2"
+        style="float: right"
+        (click)="printReceipt('MyDIv')"
+      >
+        Print
+      </button>
+      <mat-form-field appearance="standard" class="w-100">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+      </mat-form-field>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- fullName Column -->
+        <ng-container matColumnDef="itemCode">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Item Code
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.productItemCode }}</td>
+        </ng-container>
+
+        <!-- position Column -->
+        <ng-container matColumnDef="quantity">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Quantity
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
+        </ng-container>
+
+        <!-- department Column -->
+        <ng-container matColumnDef="unit">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Unit
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.unit }}</td>
+        </ng-container>
+
+        <!-- salary Column -->
+        <ng-container matColumnDef="Rate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-heade
+            class="blueButton"
+            r
+          >
+            Rate
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.rate }}</td>
+        </ng-container>
+
+        <!-- joiningDate Column -->
+        <ng-container matColumnDef="valueExclTax">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Value Excl
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.valueExclusiveTax }}</td>
+        </ng-container>
+
+        <!-- cnic Column -->
+        <ng-container matColumnDef="salesTaxRate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Sales Rate
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.salesTaxRate }}</td>
+        </ng-container>
+
+        <!-- dob Column -->
+        <ng-container matColumnDef="salesTaxAmount">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Sales Amount
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.salesTaxAmount }}</td>
+        </ng-container>
+
+        <!-- addressInformation Column -->
+        <ng-container matColumnDef="furtherTaxRate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Further Rate
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.furtherTaxRate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="furtherTaxAmount">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Further Amount
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.furtherTaxAmount }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="valueInclTax">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Value Incl
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.valueInclusiveTax }}</td>
+        </ng-container>
+
+        <!-- Fruit Column -->
+        <ng-container matColumnDef="delete">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Delete
+          </th>
+          <td mat-cell *matCellDef="let row; let i = index">
+            <mat-icon class="material-symbols-outlined" (click)="onDelete(i)"> delete </mat-icon>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="blueButton"
+          >
+            Edit
+          </th>
+          <td mat-cell *matCellDef="let row; let i = index">
+            <mat-icon class="material-symbols-outlined">
+              <span (click)="onEdit(i)">edit</span>
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <!-- Row shown when there is no matching data. -->
+        <!-- <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr> -->
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 25, 100]"
+        aria-label="Select page of users"
+      ></mat-paginator>
+    </div>
+  </div>
+  <!-- class="positioned"  -->
+  <div id="MyDIv" class="positioned">
+    <div class="container">
+      <div class="row" style="background-color: rgb(50, 120, 226)">
+        <div class="col-md-6">
+          <h1 class="mt-5" style="font-size: 30px;color:#ffff" >PURCHASE ORDER</h1>
+        </div>
+
+        <div class="col-md-3 mt-3">
+          <ul class="colorWhite">
+            +92-3334556767
+          </ul>
+          <ul class="colorWhite">
+            mianb@gmail.com
+          </ul>
+          <ul class="colorWhite">
+            G.S.T Regn. No: 1234-5678
+          </ul>
+        </div>
+        <div class="col-md-3 mt-2">
+          <ul class="colorWhite">
+            Mian Brothers Company (Pvt) Ltd
+          </ul>
+          <ul class="colorWhite">
+            Suit no. 10 Tower Heights
+          </ul>
+          <ul class="colorWhite">
+            Lahore,Pakistan
+          </ul>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4 p-3">
+          <div class="row">
+            <h3>P.O.NO.</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>{{ isPurchaseLoaded
+              ? (this.purchaseOrder[purchase_index]?.serialNumber)
+              : ''}}</h3>
+          </div>
+          <div class="row">
+            <h3>P.O.Date</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>{{isPurchaseLoaded
+              ? (this.purchaseOrder[purchase_index]?.orderDate  | date : 'dd/MM/yyyy')
+              : ''}}</h3>
+          </div>
+           <div class="row">
+            <h4 style="color: grey" >To:</h4>
+           </div>
+
+              <div class="row">
+                <h2>{{isProductCodeLoaded ? this.vendorByIdData[0].vendorName : ''}}</h2>
+              </div>
+              <div class="row">
+                <h5>{{isProductCodeLoaded ? this.vendorByIdData[0].mobileNumber : ''}}</h5>
+              </div>
+              <div class="row">
+                <h5>{{isProductCodeLoaded ? this.vendorByIdData[0].vendorAddress : ''}}</h5>
+              </div>
+      </div>
+      <div class="col-md-4 offset-md-4">
+        <div class="row mt-3">
+          <h3>Terms Of Payment</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>{{isPurchaseLoaded
+              ? (this.purchaseOrder[purchase_index]?.paymentTerms)
+              : ''}}</h3>
+        </div>
+        <div class="row">
+          <h3>Delivery Date</h3>
+            &nbsp;&nbsp;&nbsp;
+            <h3>{{isPurchaseLoaded
+              ? (this.purchaseOrder[purchase_index]?.deliveryDate  | date : 'dd/MM/yyyy')
+              : ''}}</h3>
+        </div>
+      </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-12" id="htmlData">
+          <table mat-table [dataSource]="dataSource" matSort >
+            <!-- fullName Column -->
+            <ng-container matColumnDef="itemCode">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Item Code
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.productItemCode }}</td>
+            </ng-container>
+
+            <!-- position Column -->
+            <ng-container matColumnDef="quantity">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Quantity
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.quantity }}</td>
+            </ng-container>
+
+            <!-- department Column -->
+            <ng-container matColumnDef="unit">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Unit
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.unit }}</td>
+            </ng-container>
+
+            <!-- salary Column -->
+            <ng-container matColumnDef="Rate">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-heade
+                class="blueButton"
+                r
+              >
+                Rate
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.rate }}</td>
+            </ng-container>
+
+            <!-- joiningDate Column -->
+            <ng-container matColumnDef="valueExclTax">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Value Excl
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.valueExclusiveTax }}</td>
+            </ng-container>
+
+            <!-- cnic Column -->
+            <ng-container matColumnDef="salesTaxRate">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Sales Rate
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.salesTaxRate }}</td>
+            </ng-container>
+
+            <!-- dob Column -->
+            <ng-container matColumnDef="salesTaxAmount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Sales Amount
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.salesTaxAmount }}</td>
+            </ng-container>
+
+            <!-- addressInformation Column -->
+            <ng-container matColumnDef="furtherTaxRate">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Further Rate
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.furtherTaxRate }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="furtherTaxAmount">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Further Amount
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.furtherTaxAmount }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="valueInclTax">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+                Value Incl
+              </th>
+              <td mat-cell *matCellDef="let row">{{ row.valueInclusiveTax }}</td>
+            </ng-container>
+
+            <!-- Fruit Column -->
+            <ng-container matColumnDef="delete">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+
+              </th>
+              <td mat-cell *matCellDef="let row; let i = index">
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="edit">
+              <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                class="blueButton"
+              >
+
+              </th>
+              <td mat-cell *matCellDef="let row; let i = index">
+
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <!-- <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr> -->
+          </table>
+        </div>
+      </div>
+      <div class="row mt-2 p-3">
+        <h3 class="colorBlue">Net Total:</h3>&nbsp;&nbsp;&nbsp;<h3>{{isPurchaseLoaded
+          ? (this.purchaseOrder[purchase_index]?.rate)
+          : ''}}</h3>
+      </div>
+      <div class="row mt-3 p-3">
+        <h5 style="color:rgb(10, 116, 238)">Authorized Signature</h5>
+        _______________
+        <br>
+      </div>
+    </div>
+  </div>
+
+</div>

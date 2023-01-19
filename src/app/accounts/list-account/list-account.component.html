@@ -1,0 +1,167 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">
+      Add List of Account
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="basic" routerLink="/employee-home/chart-of-account"
+          >Chart of Account</mat-chip
+        >
+        /
+        <mat-chip color="accent" selected>Add List of Account</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="listAccountForm">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Sub Account Type</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let listAccountData of this.listAccounts; let i = index"
+                (click)="loadSubAccount(i)"
+                [value]="listAccountData.accountType"
+                >{{ listAccountData.accountType }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>List Account Code</mat-label>
+            <input
+              matInput
+              #listAccountCode
+              formControlName="listAccountCode"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              listAccountForm.controls['listAccountCode'].invalid &&
+              (listAccountForm.controls['listAccountCode'].dirty ||
+                listAccountForm.controls['listAccountCode'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+          this.listAccountForm.controls.listAccountCode.errors?.['required']
+          "
+              >Serial Number is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+          this.listAccountForm.controls.listAccountCode.errors?.['minlength']
+          "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+          this.listAccountForm.controls.listAccountCode.errors?.['maxlength']
+          "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>List Account Type</mat-label>
+            <input
+              matInput
+              #listAccountType
+              formControlName="listAccountType"
+            />
+          </mat-form-field>
+          <div
+          *ngIf="
+            listAccountForm.controls['listAccountType'].invalid &&
+            (listAccountForm.controls['listAccountType'].dirty ||
+              listAccountForm.controls['listAccountType'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+        this.listAccountForm.controls.listAccountType.errors?.['required']
+        "
+            >Serial Number is Required</mat-error
+          >
+          <mat-error
+            *ngIf="
+        this.listAccountForm.controls.listAccountType.errors?.['minlength']
+        "
+            >Min 3 Characters</mat-error
+          >
+          <mat-error
+            *ngIf="
+        this.listAccountForm.controls.listAccountType.errors?.['maxlength']
+        "
+            >Max 30 Characters</mat-error
+          >
+        </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>List Account Info</mat-label>
+            <input
+              matInput
+              #listAccountInfo
+              formControlName="listAccountInfo"
+            />
+          </mat-form-field>
+          <div
+          *ngIf="
+            listAccountForm.controls['listAccountInfo'].invalid &&
+            (listAccountForm.controls['listAccountInfo'].dirty ||
+              listAccountForm.controls['listAccountInfo'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+        this.listAccountForm.controls.listAccountInfo.errors?.['required']
+        "
+            >Serial Number is Required</mat-error
+          >
+          <mat-error
+            *ngIf="
+        this.listAccountForm.controls.listAccountInfo.errors?.['minlength']
+        "
+            >Min 3 Characters</mat-error
+          >
+          <mat-error
+            *ngIf="
+        this.listAccountForm.controls.listAccountInfo.errors?.['maxlength']
+        "
+            >Max 30 Characters</mat-error
+          >
+        </div>
+        </div>
+      </div>
+    </form>
+    <div class="row mr-1" style="float: right">
+      <button mat-button routerLink="/employee-home/choose-account" >Back</button>
+      <button
+        mat-button
+        class="blueButton ml-2"
+        [disabled]="this.listAccountForm.invalid || !isSubAccountLoaded"
+        (click)="
+          addNewListAccount(
+            listAccountCode.value,
+            listAccountType.value,
+            listAccountInfo.value
+          )
+        "
+      >
+        Add
+      </button>
+    </div>
+  </div>
+</div>

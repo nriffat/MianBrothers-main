@@ -1,0 +1,13 @@
+table {
+  width: 100%;
+}
+.positioned {
+  position: absolute;
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.headingMain{
+  font-weight: bold;
+  font-size: 30px;
+}

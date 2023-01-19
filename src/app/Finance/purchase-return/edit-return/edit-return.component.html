@@ -1,0 +1,147 @@
+<h2 mat-dialog-title>Edit Return</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit return?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editReturnForm">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Return Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker1"
+              #date
+              required
+              formControlName="returnDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Debit Notes</mat-label>
+            <input matInput formControlName="debitNotes" required />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editReturnForm.controls['debitNotes'].invalid &&
+              (editReturnForm.controls['debitNotes'].dirty ||
+                editReturnForm.controls['debitNotes'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+        this.editReturnForm.controls.debitNotes.errors?.['required']
+        "
+              >Credit Notes is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.editReturnForm.controls.debitNotes.errors?.['minlength']
+        "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.editReturnForm.controls.debitNotes.errors?.['maxlength']
+        "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+    <form [formGroup]="editReturnInventoryForm">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity</mat-label>
+            <input matInput formControlName="quantity" required />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editReturnInventoryForm.controls['quantity'].invalid &&
+              (editReturnInventoryForm.controls['quantity'].dirty ||
+                editReturnInventoryForm.controls['quantity'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+        this.editReturnInventoryForm.controls.quantity.errors?.['required']
+        "
+              >Quantity is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.editReturnInventoryForm.controls.quantity.errors?.['min']
+        "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.editReturnInventoryForm.controls.quantity.errors?.['max']
+        "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <mat-label>unit</mat-label>
+            <input matInput formControlName="unit" required />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editReturnInventoryForm.controls['unit'].invalid &&
+              (editReturnInventoryForm.controls['unit'].dirty ||
+                editReturnInventoryForm.controls['unit'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+        this.editReturnInventoryForm.controls.unit.errors?.['required']
+        "
+              >Unit is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.editReturnInventoryForm.controls.unit.errors?.['min']
+        "
+              >Min 1 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+        this.editReturnInventoryForm.controls.unit.errors?.['max']
+        "
+              >Max 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    cdkFocusInitial
+    (click)="onEditReturn()"
+    [disabled]="
+      this.editReturnForm.invalid || this.editReturnInventoryForm.invalid
+    "
+  >
+    Edit
+  </button>
+</mat-dialog-actions>

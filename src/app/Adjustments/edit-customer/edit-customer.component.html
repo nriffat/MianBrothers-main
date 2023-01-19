@@ -1,0 +1,137 @@
+<h2 mat-dialog-title>Edit Customer</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit customer?</p>
+  <div class="container-fluid">
+    <form [formGroup]="editCustomer">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Payment Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker1"
+              #date
+              required
+              formControlName="paymentDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>W.H.T Rate</mat-label>
+            <input matInput formControlName="whtRate" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editCustomer.controls['whtRate'].invalid &&
+              (editCustomer.controls['whtRate'].dirty ||
+                editCustomer.controls['whtRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editCustomer.controls['whtRate']?.errors?.required"
+              >WHT Rate is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCustomer.controls['whtRate']?.errors?.min ||
+                editCustomer.controls['whtRate']?.errors?.max
+              "
+              >Must be between 1 - 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>GsT Rate</mat-label>
+            <input matInput formControlName="gstRate" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editCustomer.controls['gstRate'].invalid &&
+              (editCustomer.controls['gstRate'].dirty ||
+                editCustomer.controls['gstRate'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editCustomer.controls['gstRate']?.errors?.required"
+              >Gst Rate is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCustomer.controls['gstRate']?.errors?.min ||
+                editCustomer.controls['gstRate']?.errors?.max
+              "
+              >Must be between 1 - 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Advance Adjustments</mat-label>
+            <input matInput formControlName="advanceAdjusted" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editCustomer.controls['advanceAdjusted'].invalid &&
+              (editCustomer.controls['advanceAdjusted'].dirty ||
+                editCustomer.controls['advanceAdjusted'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="editCustomer.controls['advanceAdjusted']?.errors?.required"
+              >Advance adjusted is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCustomer.controls['advanceAdjusted']?.errors?.min ||
+                editCustomer.controls['advanceAdjusted']?.errors?.max
+              "
+              >Must be between 1 - 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline">
+            <mat-label>Discount Received</mat-label>
+            <input matInput formControlName="discountReceived" type="number" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              editCustomer.controls['discountReceived'].invalid &&
+              (editCustomer.controls['discountReceived'].dirty ||
+                editCustomer.controls['discountReceived'].touched)
+            "
+          >
+            <mat-error *ngIf="editCustomer.controls['discountReceived']?.errors?.required"
+              >Discount Received is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                editCustomer.controls['discountReceived']?.errors?.min ||
+                editCustomer.controls['discountReceived']?.errors?.max
+              "
+              >Must be between 1 - 1000000 Characters</mat-error
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onEditCustomer()" [disabled]="editCustomer.invalid">Edit</button>
+</mat-dialog-actions>

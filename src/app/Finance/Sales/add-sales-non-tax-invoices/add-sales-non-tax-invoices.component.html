@@ -1,0 +1,449 @@
+<div class="container-fluid">
+  <div class="row p-2 mt-5">
+    <h1 class="align-items-center ml-3 heading headingMain">
+      Add Sales Non Tax Invoices
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <mat-chip-list>
+        <mat-chip color="primary" routerLink="/employee-home/sales"
+          >Sales</mat-chip
+        >
+        /
+        <mat-chip
+          style="background-color: red; color: white"
+          routerLink="/employee-home/sales-non-tax-invoices"
+          >Sales Non Tax Invoices</mat-chip
+        >
+        /
+        <mat-chip color="primary" selected>Add Sales Non Tax Invoices</mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <form [formGroup]="salesNonTaxForm">
+      <div class="row mt-5">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Serial Number</mat-label>
+            <input matInput #serialNumber formControlName="serialNumber" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              salesNonTaxForm.controls['serialNumber'].invalid &&
+              (salesNonTaxForm.controls['serialNumber'].dirty ||
+                salesNonTaxForm.controls['serialNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+      this.salesNonTaxForm.controls.serialNumber.errors?.['required']
+      "
+              >Serial Number is Required</mat-error
+            >
+            <mat-error
+              *ngIf="
+      this.salesNonTaxForm.controls.serialNumber.errors?.['minlength']
+      "
+              >Min 3 Characters</mat-error
+            >
+            <mat-error
+              *ngIf="
+      this.salesNonTaxForm.controls.serialNumber.errors?.['maxlength']
+      "
+              >Max 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="datepicker1" #date formControlName="orderDate"/>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker1>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Invoice Number</mat-label>
+            <input
+              matInput
+              #serialNumber
+              formControlName="customerInvoiceNumber"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              salesNonTaxForm.controls['customerInvoiceNumber'].invalid &&
+              (salesNonTaxForm.controls['customerInvoiceNumber'].dirty ||
+                salesNonTaxForm.controls['customerInvoiceNumber'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                salesNonTaxForm.controls['customerInvoiceNumber']?.errors
+                  ?.required
+              "
+              >Customer Invoice Number is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                salesNonTaxForm.controls['customerInvoiceNumber']?.errors
+                  ?.minlength ||
+                salesNonTaxForm.controls['customerInvoiceNumber']?.errors
+                  ?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datepicker3"
+              #customerDate
+              required
+              formControlName="customerDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker3"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker3>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Order Reference</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let salesData of this.saleOrders; let i = index"
+                [value]="salesData.customerOrderReference"
+                (click)="loadSales(i)"
+                >{{ salesData.customerOrderReference }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="example-form-field w-100">
+            <mat-label>Dated</mat-label>
+            <input
+              matInput
+              readonly
+              [matDatepicker]="datepicker2"
+              #VendorDated
+              [value]="
+                isSaleCodeLoaded ? this.saleOrders[sale_index]?.orderDate : ''
+              "
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datepicker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datepicker2>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>
+                  Apply
+                </button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Delivery Challan Number</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="
+                  let deliverChallanData of this.deliverChallan;
+                  let i = index
+                "
+                [value]="deliverChallanData.serialNumber"
+                (click)="loadDelivery(i)"
+                >{{ deliverChallanData.serialNumber }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Discount</mat-label>
+            <input required matInput type="number" formControlName="discount" />
+          </mat-form-field>
+          <div
+          *ngIf="
+            salesNonTaxForm.controls['discount'].invalid &&
+            (salesNonTaxForm.controls['discount'].dirty ||
+              salesNonTaxForm.controls['discount'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              salesNonTaxForm.controls['discount']?.errors
+                ?.required
+            "
+            >Discount is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              salesNonTaxForm.controls['discount']?.errors
+                ?.min ||
+              salesNonTaxForm.controls['discount']?.errors
+                ?.max
+            "
+            >Must be between 1 - 1000000 Characters</mat-error
+          >
+        </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Terms Of Payment</mat-label>
+            <input matInput required formControlName="termsOfPayment" />
+          </mat-form-field>
+          <div
+            *ngIf="
+              salesNonTaxForm.controls['termsOfPayment'].invalid &&
+              (salesNonTaxForm.controls['termsOfPayment'].dirty ||
+                salesNonTaxForm.controls['termsOfPayment'].touched)
+            "
+          >
+            <mat-error
+              *ngIf="
+                salesNonTaxForm.controls['termsOfPayment']?.errors?.required
+              "
+              >Terms Of Payment is required</mat-error
+            >
+            <mat-error
+              *ngIf="
+                salesNonTaxForm.controls['termsOfPayment']?.errors?.minlength ||
+                salesNonTaxForm.controls['termsOfPayment']?.errors?.maxlength
+              "
+              >Must be between 3 - 30 Characters</mat-error
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Income Account</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let customerAccount of this.allAccounts; let i = index"
+                [value]="customerAccount.accountCode"
+                (click)="loadAccount(i)"
+                >{{ customerAccount.accountCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <!-- <div
+          *ngIf="
+            addSalesTaxInvoiceForm.controls['incomeAccount'].invalid &&
+            (addSalesTaxInvoiceForm.controls['incomeAccount'].dirty ||
+              addSalesTaxInvoiceForm.controls['incomeAccount'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              addSalesTaxInvoiceForm.controls['incomeAccount']?.errors
+                ?.required
+            "
+            >Serial Number is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addSalesTaxInvoiceForm.controls['incomeAccount']?.errors
+                ?.minlength ||
+              addSalesTaxInvoiceForm.controls['incomeAccount']?.errors
+                ?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div> -->
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Income Account Type</mat-label>
+            <input
+              readonly
+              matInput
+              #vendorInvoiceNumber
+              [value]="
+                isAccountLoaded
+                  ? this.allAccounts[account_index]?.accountType
+                  : ''
+              "
+            />
+          </mat-form-field>
+          <!-- <div
+          *ngIf="
+            addSalesTaxInvoiceForm.controls['accountType'].invalid &&
+            (addSalesTaxInvoiceForm.controls['accountType'].dirty ||
+              addSalesTaxInvoiceForm.controls['accountType'].touched)
+          "
+        >
+          <mat-error
+            *ngIf="
+              addSalesTaxInvoiceForm.controls['accountType']?.errors?.required
+            "
+            >Serial Number is required</mat-error
+          >
+          <mat-error
+            *ngIf="
+              addSalesTaxInvoiceForm.controls['accountType']?.errors
+                ?.minlength ||
+              addSalesTaxInvoiceForm.controls['accountType']?.errors
+                ?.maxlength
+            "
+            >Must be between 3 - 30 Characters</mat-error
+          >
+        </div> -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Code</mat-label>
+            <mat-select disableRipple>
+              <mat-option
+                *ngFor="let customerData of this.allCustomers; let i = index"
+                [value]="customerData.customerCode"
+                (click)="loadCustomers(i)"
+                >{{ customerData.customerCode }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Name</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isCustomerCodeLoaded
+                  ? this.allCustomers[customer_index]?.customerName
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Telephone</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isCustomerCodeLoaded
+                  ? this.allCustomers[customer_index]?.mobileNumber
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer GST Registration Number</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isCustomerCodeLoaded
+                  ? this.allCustomers[customer_index]?.stRegistrationNumber
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer NTN</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isCustomerCodeLoaded
+                  ? this.allCustomers[customer_index]?.ntn
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Customer Balance</mat-label>
+            <input
+              matInput
+              readonly
+              [value]="
+                isCustomerCodeLoaded
+                  ? this.allCustomers[customer_index]?.balance
+                  : ''
+              "
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Customer Address</mat-label>
+          <textarea
+            matInput
+            readonly
+            rows="8"
+            [value]="
+              isCustomerCodeLoaded
+                ? this.allCustomers[customer_index]?.customerAddress
+                : ''
+            "
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="row mr-1" style="float: right">
+      <button mat-button routerLink="/employee-home/sales-non-tax-invoices">Back</button>
+      <button mat-button class="blueButton ml-2" (click)="addSalesTax(date.value,customerDate.value)"
+      [disabled]="this.salesNonTaxForm || !isCustomerCodeLoaded || !isAccountLoaded || !isDeliveryLoaded || !isAccountLoaded"
+      >Add</button>
+    </div>
+  </div>
+</div>
+<br />
+<br />
+<br />

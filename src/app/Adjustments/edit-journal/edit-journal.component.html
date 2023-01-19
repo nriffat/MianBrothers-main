@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>Edit Journal</h2>
+<mat-dialog-content class="mat-typography">
+  <p>Are you sure you want to edit journal?</p>
+<div class="container-fluid">
+  <form [formGroup]="editJournal">
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field appearance="outline" class="example-form-field w-100">
+        <mat-label>Payment Date</mat-label>
+        <input matInput [matDatepicker]="datepicker1" #date required formControlName="paymentDate"/>
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="datepicker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #datepicker1>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>
+              Apply
+            </button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Gross Amount</mat-label>
+        <input matInput formControlName="grossAmount">
+      </mat-form-field>
+      <div
+      *ngIf="
+        editJournal.controls['grossAmount'].invalid &&
+        (editJournal.controls['grossAmount'].dirty ||
+          editJournal.controls['grossAmount'].touched)
+      "
+    >
+      <mat-error
+        *ngIf="editJournal.controls['grossAmount']?.errors?.required"
+        >Gross Amount is required</mat-error
+      >
+      <mat-error
+        *ngIf="
+          editJournal.controls['grossAmount']?.errors?.min ||
+          editJournal.controls['grossAmount']?.errors?.max
+        "
+        >Must be between 1 - 1000000 Characters</mat-error
+      >
+    </div>
+    </div>
+  </div>
+
+  </form>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial (click)="onEditJournal()" [disabled]="this.editJournal.invalid">Edit</button>
+</mat-dialog-actions>
